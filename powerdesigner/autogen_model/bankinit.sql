@@ -1,14 +1,14 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/6/12 10:03:08                           */
+/* Created on:     2019/6/12 10:13:53                           */
 /*==============================================================*/
 
-
-drop table if exists Account;
 
 drop table if exists branch;
 
 drop table if exists chequeAccount;
+
+drop table if exists cusAccount;
 
 drop table if exists cus_and_cheAccount;
 
@@ -29,20 +29,6 @@ drop table if exists loanPay;
 drop table if exists staff;
 
 /*==============================================================*/
-/* Table: Account                                               */
-/*==============================================================*/
-create table Account
-(
-   accountIDX           varchar(30) not null,
-   bran_branchName      varchar(20) not null,
-   staf_staffID         varchar(20) not null,
-   remain               float(8,2),
-   visitTime            datetime,
-   openTime             datetime,
-   primary key (accountIDX)
-);
-
-/*==============================================================*/
 /* Table: branch                                                */
 /*==============================================================*/
 create table branch
@@ -57,9 +43,23 @@ create table branch
 /*==============================================================*/
 create table chequeAccount
 (
-   Acco_accountIDX      varchar(30) not null,
-   "limit"              float(8,2),
-   primary key (Acco_accountIDX)
+   cusA_accountIDX      varchar(30) not null,
+   neg_limit            float(8,2),
+   primary key (cusA_accountIDX)
+);
+
+/*==============================================================*/
+/* Table: cusAccount                                            */
+/*==============================================================*/
+create table cusAccount
+(
+   accountIDX           varchar(30) not null,
+   bran_branchName      varchar(20) not null,
+   staf_staffID         varchar(20) not null,
+   remain               float(8,2),
+   visitTime            datetime,
+   openTime             datetime,
+   primary key (accountIDX)
 );
 
 /*==============================================================*/
@@ -68,8 +68,8 @@ create table chequeAccount
 create table cus_and_cheAccount
 (
    cust_customID        varchar(18) not null,
-   cheq_Acco_accountIDX varchar(30) not null,
-   primary key (cust_customID, cheq_Acco_accountIDX)
+   cheq_cusA_accountIDX varchar(30) not null,
+   primary key (cust_customID, cheq_cusA_accountIDX)
 );
 
 /*==============================================================*/
@@ -78,8 +78,8 @@ create table cus_and_cheAccount
 create table cus_and_depAccount
 (
    cust_customID        varchar(18) not null,
-   depo_Acco_accountIDX varchar(30) not null,
-   primary key (cust_customID, depo_Acco_accountIDX)
+   depo_cusA_accountIDX varchar(30) not null,
+   primary key (cust_customID, depo_cusA_accountIDX)
 );
 
 /*==============================================================*/
@@ -125,10 +125,10 @@ create table department
 /*==============================================================*/
 create table depositAccount
 (
-   Acco_accountIDX      varchar(30) not null,
+   cusA_accountIDX      varchar(30) not null,
    currency             varchar(5),
    interest             decimal(3,3),
-   primary key (Acco_accountIDX)
+   primary key (cusA_accountIDX)
 );
 
 /*==============================================================*/
@@ -169,26 +169,26 @@ create table staff
    primary key (staffID)
 );
 
-alter table Account add constraint FK_account_responsible foreign key (staf_staffID)
+alter table chequeAccount add constraint FK_account_subtype2 foreign key (cusA_accountIDX)
+      references cusAccount (accountIDX) on delete restrict on update restrict;
+
+alter table cusAccount add constraint FK_account_responsible foreign key (staf_staffID)
       references staff (staffID) on delete restrict on update restrict;
 
-alter table Account add constraint FK_bank_and_openAccount foreign key (bran_branchName)
+alter table cusAccount add constraint FK_bank_and_openAccount foreign key (bran_branchName)
       references branch (branchName) on delete restrict on update restrict;
-
-alter table chequeAccount add constraint FK_account_subtype2 foreign key (Acco_accountIDX)
-      references Account (accountIDX) on delete restrict on update restrict;
 
 alter table cus_and_cheAccount add constraint FK_cus_and_cheAccount foreign key (cust_customID)
       references customer (customID) on delete restrict on update restrict;
 
-alter table cus_and_cheAccount add constraint FK_cus_and_cheAccount2 foreign key (cheq_Acco_accountIDX)
-      references chequeAccount (Acco_accountIDX) on delete restrict on update restrict;
+alter table cus_and_cheAccount add constraint FK_cus_and_cheAccount2 foreign key (cheq_cusA_accountIDX)
+      references chequeAccount (cusA_accountIDX) on delete restrict on update restrict;
 
 alter table cus_and_depAccount add constraint FK_cus_and_depAccount foreign key (cust_customID)
       references customer (customID) on delete restrict on update restrict;
 
-alter table cus_and_depAccount add constraint FK_cus_and_depAccount2 foreign key (depo_Acco_accountIDX)
-      references depositAccount (Acco_accountIDX) on delete restrict on update restrict;
+alter table cus_and_depAccount add constraint FK_cus_and_depAccount2 foreign key (depo_cusA_accountIDX)
+      references depositAccount (cusA_accountIDX) on delete restrict on update restrict;
 
 alter table cus_and_loan add constraint FK_cus_and_loan foreign key (cust_customID)
       references customer (customID) on delete restrict on update restrict;
@@ -199,8 +199,8 @@ alter table cus_and_loan add constraint FK_cus_and_loan2 foreign key (loan_loanI
 alter table department add constraint FK_dep_substitude foreign key (bran_branchName)
       references branch (branchName) on delete restrict on update restrict;
 
-alter table depositAccount add constraint FK_account_subtype foreign key (Acco_accountIDX)
-      references Account (accountIDX) on delete restrict on update restrict;
+alter table depositAccount add constraint FK_account_subtype foreign key (cusA_accountIDX)
+      references cusAccount (accountIDX) on delete restrict on update restrict;
 
 alter table loan add constraint FK_bank_and_loan foreign key (bran_branchName)
       references branch (branchName) on delete restrict on update restrict;
