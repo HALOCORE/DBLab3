@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/6/12 10:13:53                           */
+/* Created on:     2019/6/12 11:03:39                           */
 /*==============================================================*/
 
 
@@ -17,8 +17,6 @@ drop table if exists cus_and_depAccount;
 drop table if exists cus_and_loan;
 
 drop table if exists customer;
-
-drop table if exists department;
 
 drop table if exists depositAccount;
 
@@ -109,18 +107,6 @@ create table customer
 );
 
 /*==============================================================*/
-/* Table: department                                            */
-/*==============================================================*/
-create table department
-(
-   depIDX               varchar(15) not null,
-   bran_branchName      varchar(20) not null,
-   depName              varchar(20),
-   depType              varchar(5),
-   primary key (depIDX)
-);
-
-/*==============================================================*/
 /* Table: depositAccount                                        */
 /*==============================================================*/
 create table depositAccount
@@ -161,7 +147,7 @@ create table loanPay
 create table staff
 (
    staffID              varchar(20) not null,
-   depa_depIDX          varchar(15) not null,
+   bran_branchName      varchar(20) not null,
    startWorkDate        date,
    staffName            varchar(12),
    staffPhone           varchar(16),
@@ -196,9 +182,6 @@ alter table cus_and_loan add constraint FK_cus_and_loan foreign key (cust_custom
 alter table cus_and_loan add constraint FK_cus_and_loan2 foreign key (loan_loanIDX)
       references loan (loanIDX) on delete restrict on update restrict;
 
-alter table department add constraint FK_dep_substitude foreign key (bran_branchName)
-      references branch (branchName) on delete restrict on update restrict;
-
 alter table depositAccount add constraint FK_account_subtype foreign key (cusA_accountIDX)
       references cusAccount (accountIDX) on delete restrict on update restrict;
 
@@ -211,6 +194,8 @@ alter table loan add constraint FK_loan_responsible foreign key (staf_staffID)
 alter table loanPay add constraint FK_loan_and_loanPay foreign key (loan_loanIDX)
       references loan (loanIDX) on delete restrict on update restrict;
 
-alter table staff add constraint FK_employ foreign key (depa_depIDX)
-      references department (depIDX) on delete restrict on update restrict;
+alter table staff add constraint FK_branch_and_staff foreign key (bran_branchName)
+      references branch (branchName) on delete restrict on update restrict;
+
+commit;
 
