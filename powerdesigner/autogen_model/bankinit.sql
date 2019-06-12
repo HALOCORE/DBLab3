@@ -113,7 +113,7 @@ create table depositAccount
 (
    cusA_accountIDX      varchar(30) not null,
    currency             varchar(5),
-   interest             decimal(3,3),
+   interest             decimal(6,3),
    primary key (cusA_accountIDX)
 );
 
