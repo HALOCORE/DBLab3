@@ -2,7 +2,7 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2019/6/12 11:03:39                           */
 /*==============================================================*/
-
+use BankDB;
 
 drop table if exists branch;
 

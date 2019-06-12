@@ -10,11 +10,17 @@ def sqlstr(normstr):
 branch_cities = [sqlstr(x) for x in ['Hefei', 'Beijing', 'Shanghai']]
 branch_names = [sqlstr(x) for x in ['AHB', 'BJB', 'SHB']]
 
-
+unique_digits = set()
 def rand_digits(dglength:int, quote=True):
-    digs = [str(random.randint(0, 9)) for _ in range(dglength)]
-    dgstr = "".join(digs)
-    assert(len(dgstr) == dglength)
+    global unique_digits
+    dgstr = "x"
+    while dgstr in unique_digits:
+        digs = [str(random.randint(0, 9)) for _ in range(dglength)]
+        dgstr = "".join(digs)
+        assert(len(dgstr) == dglength)
+    
+    assert(dgstr not in unique_digits)
+    unique_digits.add(dgstr)
     if quote:
         return sqlstr(dgstr)
     return dgstr
@@ -25,15 +31,21 @@ def rand_digitss(dglength:int, dg_count:int):
         dif_dgs.add(rand_digits(dglength))
     return list(dif_dgs)
 
-
+unique_idstr = set()
 def rand_idstr():
-    pf1 = ['410','443','221']
-    pf2 = ['621','403']
-    year = str(random.randint(1980, 2010))
-    month = "%02d" % random.randint(1, 12)
-    day = "%02d" % random.randint(1, 28)
-    suf = rand_digits(4, False)
-    idstr = random.choice(pf1) + random.choice(pf2) + year + month + day + suf
+    global unique_idstr
+    idstr = "x"
+    while idstr in unique_idstr:
+        pf1 = ['410','443','221']
+        pf2 = ['621','403']
+        year = str(random.randint(1980, 2010))
+        month = "%02d" % random.randint(1, 12)
+        day = "%02d" % random.randint(1, 28)
+        suf = rand_digits(4, False)
+        idstr = random.choice(pf1) + random.choice(pf2) + year + month + day + suf
+    assert(idstr not in unique_idstr)
+    unique_idstr.add(idstr)
+    
     return sqlstr(idstr)
 
 
@@ -71,7 +83,7 @@ def rand_date():
     return sqlstr("%s-%s-%s" % (random.choice(year), random.choice(month), random.choice(day)))
 
 def write_csv(table_name, field_names, vals):
-    with open(table_name + ".csv", 'w') as f:
+    with open(table_name + ".csv", 'w', encoding='utf-8') as f:
         f.write(", ".join(field_names))
         f.write('\n')
         for val in vals:
@@ -129,7 +141,7 @@ def csv_loan(idxs:list, staffids:list):
 
 
 def csv_cus_and_cheAccount(cusids:list, idxs:list):
-    field_names = ['cust_cutomID', 'cheq_cusA_accountIDX']
+    field_names = ['cust_customID', 'cheq_cusA_accountIDX']
     vals = [p for p in zip(cusids, idxs)]
     write_csv("cus_and_cheAccount", field_names, vals)
     return field_names, vals
@@ -165,14 +177,18 @@ def csv_customer(cus_num:int):
     return field_names, vals
 
 
-def csv_loanPay(loan_idx:list, loan_amount:list):
+def csv_loanPay(loan_idxs:list, loan_amounts:list):
     field_names = ['loan_loanIDX', 'loanPayDate', 'loanPayAmount']
     vals = list()
-    for idx in loan_idx:
+    for idx, amount in zip(loan_idxs, loan_amounts):
+        cur_amount = int(amount)
         for _ in range(random.randint(0,3)):
             loan_date = rand_date()
-            loan_amount = str(random.randint(10, 200))
-            vals.append((idx, loan_date, loan_amount))
+            cur_pay = min(cur_amount, int(random.randint(1, 10) * int(amount) / 10))
+            if cur_pay == 0:
+                break
+            cur_amount -= cur_pay
+            vals.append((idx, loan_date, str(cur_pay)))
     write_csv('loanPay', field_names, vals)
     return field_names, vals
 
@@ -214,39 +230,47 @@ def generate_all():
     branch_che_idxs_dict = {branch:list() for branch in branch_names}
     branch_dep_idxs_dict = {branch:list() for branch in branch_names}
 
+    filtval1 = 5
+    filtval2 = 5
     for cid in cids:
         for branch in branch_names:
-            if random.randint(0, 10) < 4:
-                cus_branchnames.append(branch)
-                
-                idx = rand_digits(20)
-                cus_idxs.append(idx)
-                
-                staffid = random.choice(sids)
-                cus_staffids.append(staffid)
+            if random.randint(0, 10) < filtval1:
             
-                if random.randint(0, 10) > 5:
+                if random.randint(0, 10) < filtval2:
+                    cus_branchnames.append(branch)
+                    idx = rand_digits(20)
+                    cus_idxs.append(idx)
+                    staffid = random.choice(sids)
+                    cus_staffids.append(staffid)
+
                     che_idxs.append(idx)
                     cu_che_ids.append(cid)
                     cu_che_idxs.append(idx)
                     branch_che_idxs_dict[branch].append(idx)
                 
-                if random.randint(0, 10) > 5:
+                if random.randint(0, 10) < filtval2:
+                    cus_branchnames.append(branch)
+                    idx = rand_digits(20)
+                    cus_idxs.append(idx)
+                    staffid = random.choice(sids)
+                    cus_staffids.append(staffid)
+
                     dep_idxs.append(idx)
                     cu_dep_ids.append(cid)
                     cu_dep_idxs.append(idx)
                     branch_dep_idxs_dict[branch].append(idx)
             else:
-                if random.randint(0, 10) > 5:
+                if random.randint(0, 10) < filtval2:
                     valid_idxs = branch_che_idxs_dict[branch]
                     if len(valid_idxs) > 0:
                         idx = random.choice(valid_idxs)
                         cu_che_ids.append(cid)
                         cu_che_idxs.append(idx)
                 
-                if random.randint(0, 10) > 5:
+                if random.randint(0, 10) < filtval2:
                     valid_idxs = branch_dep_idxs_dict[branch]
                     if len(valid_idxs) > 0:
+                        idx = random.choice(valid_idxs)
                         cu_dep_ids.append(cid)
                         cu_dep_idxs.append(idx)
                 
@@ -256,11 +280,17 @@ def generate_all():
     _, cu_che_rels = csv_cus_and_cheAccount(cu_che_ids, cu_che_idxs)
     _, cu_dep_rels = csv_cus_and_depAccount(cu_dep_ids, cu_dep_idxs)
 
+
     loan_idxs = rand_digitss(20, 350)
-    loan_staffs = random.choices(sids, k=300)
+    loan_staffs = random.choices(sids, k=len(loan_idxs))
     _, loans = csv_loan(loan_idxs, loan_staffs)
-    loan_amount = [x[4] for x in loans]
-    
+    check_loan_idxs = [x[0] for x in loans]
+    loan_amounts = [x[4] for x in loans]
+
+    assert(len(loan_amounts) == len(loan_idxs))
+    for idx in loan_idxs:
+        assert(idx in check_loan_idxs)
+
     cu_loan_ids = list()
     cu_loan_idxs = list()
 
@@ -273,7 +303,7 @@ def generate_all():
         
     _, cu_loan_rels = csv_cus_and_loan(cu_loan_ids, cu_loan_idxs)
 
-    _, loanpays = csv_loanPay(loan_idxs, loan_amount)
+    _, loanpays = csv_loanPay(loan_idxs, loan_amounts)
 
 
 if __name__ == "__main__":
