@@ -1,0 +1,43 @@
+1. 使用PUTTY登录 193.112.68.240, 密码 KzDG2MgA95
+  使用top查看CPU/内存占用
+  使用 ps -aux | grep 关键字 查找进程
+
+查看所有用户
+cat /etc/passwd|grep -v nologin|grep -v halt|grep -v shutdown|awk -F":" '{ print $1"|"$3"|"$4 }'|more
+查看所有用户组
+cat /etc/group
+
+改变密码 cat /etc/my.cnf;
+
+关闭密码，进入mysql命令行以后，
+更改密码： update mysql.user set authentication_string=password('123qwe') where user='root' and Host = 'localhost';
+*特别提醒注意的一点是，5.7的mysql数据库下的user表中已经没有Password字段了
+而是将加密后的用户密码存储于authentication_string字段
+mysql> flush privileges;
+mysql> quit;
+
+然后，systemctl restart mysql;
+然后mysql -u root -p 然后输入密码进入
+ alter user 'root'@'localhost' identified by '612089';
+
+然后这个密码就可以用了。
+
+授权用户允许任意来源访问：
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'  IDENTIFIED BY '612089'  WITH GRANT OPTION;
+flush privileges;
+
+
+资源：
+数据库大作业总结 android+Java web+mysql  https://blog.csdn.net/sinat_17817545/article/details/51753238
+github上一个数据库大作业 https://github.com/jingle1000/CIS-232-FINAL-PROJECT/blob/master/Source/src/main/java/Services/ExecuteSelect.java
+
+package java.sql官方文档
+https://docs.oracle.com/javase/8/docs/api/java/sql/package-summary.html
+
+MySQl远程连接
+https://www.cnblogs.com/smallstone/archive/2010/04/29/1723838.html
+
+使用yum安装mysql官方说明
+https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/
+1. 下载yum repo，添加源
+
