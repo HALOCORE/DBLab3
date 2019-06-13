@@ -41,3 +41,21 @@ https://www.cnblogs.com/smallstone/archive/2010/04/29/1723838.html
 https://dev.mysql.com/doc/mysql-yum-repo-quick-guide/en/
 1. œ¬‘ÿyum repo£¨ÃÌº”‘¥
 
+
+private static void _doUseGetArray( Array array )
+  54:  throws SQLException
+  55:	    {
+  56:    System.out.println("In _doUseGetArray");System.out.flush();
+  57:    Object[] arrayInJava = (Object[])array.getArray();
+  58:    for( int i=0; i < arrayInJava.length; i++ )
+  59:	      {
+  60:      Struct empStruct = (Struct) (arrayInJava[i]);
+  61:      Object[] attributes = empStruct.getAttributes();
+  62:      for( int j=0; j < attributes.length; j++ )
+  63:	        {
+  64:        System.out.println(attributes[j]);
+  65:      }
+  66:      System.out.println();
+  67:    }
+  68:    System.out.println("Exiting _doUseGetArray");System.out.flush();
+  69:  }

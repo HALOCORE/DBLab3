@@ -8,16 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class DBSearcher
+ * Servlet implementation class APIStatistic
  */
-@WebServlet(description = "数据库搜索功能", urlPatterns = { "/DBSearcher" })
-public class DBSearcher extends HttpServlet {
+@WebServlet("/APIStatistic")
+public class APIStatistic extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DBSearcher() {
+    public APIStatistic() {
         super();
         // TODO Auto-generated constructor stub
     }
