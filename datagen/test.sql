@@ -50,15 +50,22 @@ insert into staff
 (staffID,bran_branchName)
 values
 ("421381198712345678","union");
-*/
+
 
 insert into cusAccount
 (accountIDX,bran_branchName,staf_staffID,remain)
 values
 ("1000","union","421381198712345678",3.56);
 
+
+insert into depositAccount
+(cusA_accountIDX,currency,interest)
+values
+();
+
 select * from cusAccount;
 select * from staff;
 select * from branch;
-
+*/
+SELECT * FROM branch;
 
