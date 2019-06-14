@@ -1,8 +1,10 @@
 
 
 from django.http import HttpResponse
+from django.db import connection
 
 def handle_main(request):
+    
     return HttpResponse("handle_main ! ")
 
 
