@@ -38,22 +38,28 @@ MIDDLEWARE = []
 
 ROOT_URLCONF = 'BankBk.urls'
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-            ],
-        },
-    },
-]
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#             ],
+#         },
+#     },
+# ]
 
 WSGI_APPLICATION = 'BankBk.wsgi.application'
 
+DATABASES = {
+    'default':{
+        'ENGINE':'django.db.backends.sqlite3',
+        'NAME':os.path.join(BASE_DIR, 'db.sqlite3')
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
