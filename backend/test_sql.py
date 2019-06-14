@@ -16,24 +16,29 @@ try:
     # 执行查询 SQL
     cursor.execute('SELECT * FROM branch')
     # 获取单条数据
-    result = cursor.fetchone()
+    result = cursor.fetchall()
+    colmon = cursor.description#列的元组
+    title = [colmon[i][0] for i in range(len(colmon))]
+    cursor.close()
     print(result)
+    print(colmon)
+    print(title)
 
 
-    with connection.cursor() as cursor:
+    # with connection.cursor() as cursor:
     #     # Create a new record
     #     sql = "INSERT INTO branch (city, branchName) VALUES (%s, %s)"
     #     cursor.execute(sql, ('asdqw', 'ujy'))
         
     # connection is not autocommit by default. So you must commit to save
     # your changes.
-    connection.commit()
+    # connection.commit()
 
     with connection.cursor() as cursor:
         # Read a single record
-        sql = "SELECT `id`, `password` FROM `users` WHERE `email`=%s"
-        cursor.execute(sql, ('webmaster@python.org',))
-        result = cursor.fetchone()
+        sql = "SELECT city FROM branch WHERE branchName=%s"
+        cursor.execute(sql, ('AHB',))
+        result = cursor.fetchall()
         print(result)
 finally:
     connection.close()

@@ -31,7 +31,6 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.contenttypes',
     'django.contrib.staticfiles',
 ]
 
@@ -48,29 +47,12 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                # 'django.contrib.auth.context_processors.auth',
-                # 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'BankBk.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'BankDB',
-        'USER': 'root',
-        'PASSWORD': '612089',
-        'HOST': '193.112.68.240',
-        'PORT': '3306',
-    }
-}
 
 
 # Internationalization
