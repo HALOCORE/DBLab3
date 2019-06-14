@@ -7,24 +7,25 @@ def handle_main(request):
     if request.method == 'GET':#查询支行
         branch = request.GET.get('branch')
         if branch is None:#查询所有支行
-            metadata,all_branch = api__REQUEST.query_all('branch')
+            metadata,all_branch = api__REQUEST.query_table('branch')
             return db_connect.httpRespOK("OK",metadata,all_branch)
         else:#按名字查询
             query = {}
             query['branchName'] = branch
-            metadata,data = api__REQUEST.query_specify(query)
+            metadata,data = api__REQUEST.query_specify([],'branch',query)
             return db_connect.httpRespOK("OK",metadata,data)
     elif request.method == 'POST':#新建一个支行
         city = request.POST.get('city','')
-        branchName = request.POST.get('branchName')
+        branchName = request.POST.get('name')
         #
         if branchName is None:
             return db_connect.httpRespError()
-        #
-
-
-
-        return db_connect.httpRespOK("OK")
+        else:
+            data = {}
+            data['city'] = city
+            data['branchName'] = branchName
+            api__REQUEST.insert_one('branch',data)
+            return db_connect.httpRespOK("OK")
     else:
         # 无法解析的请求类型
         return db_connect.httpRespError()
