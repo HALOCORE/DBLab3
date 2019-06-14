@@ -70,6 +70,7 @@ def auto_auth(func):
         if 'pwdtoken' in cookie:
             auth_result = check_token(cookie['pwdtoken'])
         if auth_result is not None:
+            # TODO:
             # 调用处理函数
             return func(*args, **kwargs)
         else:

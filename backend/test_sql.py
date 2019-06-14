@@ -25,21 +25,22 @@ try:
     # print(title)
 
 
-    with connection.cursor() as cursor:
-        # Create a new record
-        sql = "INSERT INTO branch (city, branchName) VALUES (%s, %s)"
-        cursor.execute(sql, ('', 'AAA'))
-        
-    # connection is not autocommit by default. So you must commit to save
-    # your changes.
-    connection.commit()
-
     # with connection.cursor() as cursor:
-    #     # Read a single record
-    #     sql = "SELECT city FROM branch WHERE branchName='AHB'"
-    #     cursor.execute(sql)
-    #     #cursor.execute(sql, ('AHB',))
-    #     result = cursor.fetchall()
-    #     print(result)
+    #     # Create a new record
+    #     sql = "INSERT INTO branch (city, branchName) VALUES (%s, %s)"
+    #     cursor.execute(sql, ('', 'AAA'))
+        
+    # # connection is not autocommit by default. So you must commit to save
+    # # your changes.
+    # connection.commit()
+
+    with connection.cursor() as cursor:
+        # Read a single record
+        #sql = "SELECT * FROM branch WHERE branchName LIKE '%%%%%s%%%%' and city LIKE '%%%%%s%%%%'" %('AH','')
+        sql = "SELECT * FROM cusAccount, depositAccount WHERE cusAccount.accountIDX = depositAccount.cusA_accountIDX and depositAccount.interest>4.0 "
+        cursor.execute(sql)
+        #cursor.execute(sql, ('AH',))
+        result = cursor.fetchall()
+        print(result)
 finally:
     connection.close()

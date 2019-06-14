@@ -6,6 +6,8 @@ def printresp(resp:requests.Response):
         with open('error.html','w') as f:
             f.write(str(resp.content))
         assert(False)
+    elif resp.status_code == 404:
+        print("# 404.")
     else:
         print(resp, resp.content)
 
@@ -20,9 +22,13 @@ def printresp(resp:requests.Response):
 # printresp(requests.get("http://localhost:8000/api/v1/APIAccount/"))
 
 # Branch
-printresp(requests.get("http://localhost:8000/api/v1/APIBranch"))
-printresp(requests.get("http://localhost:8000/api/v1/APIBranch?branch=AH"))
+# printresp(requests.get("http://localhost:8000/api/v1/APIBranch/"))
+# printresp(requests.get("http://localhost:8000/api/v1/APIBranch/?branch=AH"))
+# printresp(requests.get("http://localhost:8000/api/v1/APIBranch/AAA"))
+# printresp(requests.delete("http://localhost:8000/api/v1/APIBranch/AAA"))
+# printresp(requests.post("http://localhost:8000/api/v1/APIBranch/", {"city":"Henan", "name":"河南分行"}))
+printresp(requests.put("http://localhost:8000/api/v1/APIBranch/AHB", {"field":['city'], "field_value": ['RRRRRR']}))
 
 # Loan
-printresp(requests.get("http://localhost:8000/api/v1/Loan/"))    
-printresp(requests.get("http://localhost:8000/api/v1/Loan/2312"))  
+# printresp(requests.get("http://localhost:8000/api/v1/Loan/"))    
+# printresp(requests.get("http://localhost:8000/api/v1/Loan/2312"))  
