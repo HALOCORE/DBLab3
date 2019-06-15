@@ -42,7 +42,7 @@ BEGIN
 	CLOSE cur ;
 END $$
 
--- ------------------------------------------------------------------------------------------
+-- ------------------------------------------------------------------------------------------贷款支付
 use BankDB;
 delimiter $$
 DROP PROCEDURE if exists `proc_pay_loan`;
@@ -69,3 +69,38 @@ BEGIN
 		(var_loan_loanIDX, var_loanPayDate, var_loanPayAmount);
 	update loan set loanStatus = var_status, loanPaid = var_after_paid where loanIDX = var_loan_loanIDX;
 END $$
+
+----------------------------------------------------------------------------------------------贷款删除
+use BankDB;
+delimiter $$
+DROP PROCEDURE if exists `proc_delete_loan`;
+CREATE PROCEDURE `proc_delete_loan` (
+	in var_loan_loanIDX      varchar(30),
+BEGIN
+	DECLARE loan_record varchar(30) DEFAULT null;
+	DECLARE loanPay_record varchar(30) DEFAULT null;
+	DECLARE cus_and_loan_record varchar(30) DEFAULT null;
+
+	select loanIDX into loan_record from loan where loanIDX = var_loan_loanIDX
+	select loan_loanIDX into loanPay_record from loanPay where loan_loanIDX = var_loan_loanIDX
+	select loan_loanIDX into cus_and_loan_record from cus_and_loan where loan_loanIDX = var_loan_loanIDX
+
+	if loan_record is null then
+	 	SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Error: no this record in table loan.', MYSQL_ERRNO = 1001; -- not sure
+	end if;
+	if loanPay_record is null then
+	 	SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Error: no this record in table loanPay.', MYSQL_ERRNO = 1001; -- not sure
+	end if;
+	if cus_and_loan_record is null then
+	 	SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Error: no this record in table cus_and_loan.', MYSQL_ERRNO = 1001; -- not sure
+	end if;
+
+	delete from cus_and_loan where loan_loanIDX = var_loan_loanIDX
+	delete from loanPay where loan_loanIDX = var_loan_loanIDX
+	delete from loan where loanIDX = var_loan_loanIDX
+
+END $$
+----提问：存储过程的commit是自动的吗，还是说在后端做
