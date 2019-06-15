@@ -1,8 +1,8 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/6/12 11:03:39                           */
+/* Created on:     2019/6/15 14:13:54                           */
 /*==============================================================*/
-use BankDB;
+
 
 drop table if exists branch;
 
@@ -57,6 +57,7 @@ create table cusAccount
    remain               float(8,2),
    visitTime            datetime,
    openTime             datetime,
+   accountType          varchar(10),
    primary key (accountIDX)
 );
 
@@ -127,6 +128,8 @@ create table loan
    bran_branchName      varchar(20) not null,
    loanDate             datetime,
    loanAmount           float(8,2),
+   loanStatus           tinyint,
+   loanPaid             float(8,2),
    primary key (loanIDX)
 );
 
@@ -152,6 +155,7 @@ create table staff
    staffName            varchar(12),
    staffPhone           varchar(16),
    staffAddress         varchar(30),
+   staffPassword        varchar(10),
    primary key (staffID)
 );
 
@@ -196,6 +200,4 @@ alter table loanPay add constraint FK_loan_and_loanPay foreign key (loan_loanIDX
 
 alter table staff add constraint FK_branch_and_staff foreign key (bran_branchName)
       references branch (branchName) on delete restrict on update restrict;
-
-commit;
 

@@ -1,4 +1,5 @@
 import requests
+import datetime
 
 def printresp(resp:requests.Response):
     print("\n# Request:", resp.request.method, resp.request.url)
@@ -19,7 +20,7 @@ def printresp(resp:requests.Response):
 
 ###################################################################################################
 
-test_ctl = {'Customer':False, 'Staff':True, 'Account':False, 'Branch':False, 'Loan':False}
+test_ctl = {'Customer':False, 'Staff':False, 'Account':False, 'Branch':False, 'Loan':True}
 
 # # Customer
 # 基本
@@ -115,7 +116,17 @@ if test_ctl['Branch']:
     printresp(requests.get("http://localhost:8000/api/v1/APIBranch/AAA"))
 
 
-
-# Loan
-# printresp(requests.get("http://localhost:8000/api/v1/Loan/"))    
-# printresp(requests.get("http://localhost:8000/api/v1/Loan/2312"))  
+if test_ctl['Loan']:
+    # Loan  
+    # 基本
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/"))
+    # 合法查询（非法查询如果是值格式错误有些不报错。注意格式要正确）
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/?loanAmountgt=2000&loanAmountlt=4000"))
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/?loanDatefrom=2019-11-01&loanDateto=2020-01-01"))
+    # 获取某个贷款
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063"))  
+    # 获取某个贷款的发放记录
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay"))  
+    # 支付某个贷款的一部分(loan pay)
+    printresp(requests.post("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 100}))  
+    # 删除贷款 TODO

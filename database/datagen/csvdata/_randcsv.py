@@ -10,7 +10,7 @@ def sqlstr(normstr):
 branch_cities = [sqlstr(x) for x in ['Hefei', 'Beijing', 'Shanghai']]
 branch_names = [sqlstr(x) for x in ['AHB', 'BJB', 'SHB']]
 
-unique_digits = set()
+unique_digits = {"x"}
 def rand_digits(dglength:int, quote=True):
     global unique_digits
     dgstr = "x"
@@ -31,7 +31,7 @@ def rand_digitss(dglength:int, dg_count:int):
         dif_dgs.add(rand_digits(dglength))
     return list(dif_dgs)
 
-unique_idstr = set()
+unique_idstr = {"x"}
 def rand_idstr():
     global unique_idstr
     idstr = "x"
@@ -102,11 +102,11 @@ def csv_branch():
     return field_names, vals
 
 
-def csv_cusAccount(idxs:list, branchnames:list, staffids:list):
-    field_names = ['accountIDX', 'bran_branchName', 'staf_staffID', 'remain', 'visitTime', 'openTime']
+def csv_cusAccount(idxs:list, branchnames:list, staffids:list, types:list):
+    field_names = ['accountIDX', 'bran_branchName', 'staf_staffID', 'remain', 'visitTime', 'openTime', 'accountType']
     vals = list()
-    for accidx, branchName, staffId in zip(idxs, branchnames, staffids):
-        vals.append((accidx, branchName, staffId, str(random.randint(10, 200000)), '"2019-06-12"', '"2012-12-21"'))
+    for accidx, branchName, staffId, acctype in zip(idxs, branchnames, staffids, types):
+        vals.append((accidx, branchName, staffId, str(random.randint(10, 200000)), '"2019-06-12"', '"2012-12-21"', acctype))
     write_csv("cusAccount", field_names, vals)
     return field_names, vals
 
@@ -129,13 +129,13 @@ def csv_depositAccount(idxs:list):
 
 
 def csv_loan(idxs:list, staffids:list):
-    field_names = ['loanIDX', 'staf_staffID', 'bran_branchName', 'loanDate', 'loanAmount']
+    field_names = ['loanIDX', 'staf_staffID', 'bran_branchName', 'loanDate', 'loanAmount', 'loanStatus']
     vals = list()
     for idx, staffid in zip(idxs, staffids):
         branch_name = random.choice(branch_names)
         loan_date = rand_date()
         loan_amount = str(random.randint(1, 100) * 1000)
-        vals.append([idx, staffid, branch_name, loan_date, loan_amount])
+        vals.append([idx, staffid, branch_name, loan_date, loan_amount, "0"])
     write_csv("loan", field_names, vals)
     return field_names, vals
 
@@ -218,6 +218,7 @@ def generate_all():
     cus_idxs = list()
     cus_branchnames = list()
     cus_staffids = list()
+    cus_types = list()
     
     che_idxs = list()
     dep_idxs = list()
@@ -242,6 +243,7 @@ def generate_all():
                     cus_idxs.append(idx)
                     staffid = random.choice(sids)
                     cus_staffids.append(staffid)
+                    cus_types.append('"cheque"')
 
                     che_idxs.append(idx)
                     cu_che_ids.append(cid)
@@ -254,6 +256,7 @@ def generate_all():
                     cus_idxs.append(idx)
                     staffid = random.choice(sids)
                     cus_staffids.append(staffid)
+                    cus_types.append('"deposit"')
 
                     dep_idxs.append(idx)
                     cu_dep_ids.append(cid)
@@ -274,7 +277,7 @@ def generate_all():
                         cu_dep_ids.append(cid)
                         cu_dep_idxs.append(idx)
                 
-    _, accounts = csv_cusAccount(cus_idxs, cus_branchnames, cus_staffids)
+    _, accounts = csv_cusAccount(cus_idxs, cus_branchnames, cus_staffids, cus_types)
     _, depAccounts = csv_depositAccount(dep_idxs)
     _, cheAccounts = csv_chequeAccount(che_idxs)
     _, cu_che_rels = csv_cus_and_cheAccount(cu_che_ids, cu_che_idxs)

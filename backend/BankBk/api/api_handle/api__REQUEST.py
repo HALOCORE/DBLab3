@@ -1,5 +1,27 @@
 from . import db_connect
 
+from datetime import datetime
+    
+
+
+"""执行无返回值的存储过程"""
+def call_procedure(proc_name, params:list):
+    str_params = list()
+    for param in params:
+        if isinstance(param, str):
+            str_params.append('"' + param + '"')
+        elif isinstance(param, datetime):
+            str_params.append('"' + str(datetime) + '"')
+        else:
+            str_params.append(str(param))
+    str_param = ', '.join(str_params)
+    cursor = db_connect.connection.cursor()
+    command = "call %s(%s)" % (proc_name, str_param)
+    print("# call_procedure. ", command)
+    cursor.execute(command)
+    cursor.close()
+
+
 """查询"""
 #执行查询语句，返回所有表头和所有数据
 def query_all(sql:str, parameter=()):
@@ -74,13 +96,13 @@ def gen_where(query_dict):
     wheres = list()
     for key in query_dict:
         if key.endswith("lt"):
-            wheres.append(key + " < " + query_dict[key][:-2] + " ")
-        elif key.endswith("rt"):
-            wheres.append(key + " > " + query_dict[key][:-2] + " ")
+            wheres.append(key[:-2] + " < " + query_dict[key] + " ")
+        elif key.endswith("gt"):
+            wheres.append(key[:-2] + " > " + query_dict[key] + " ")
         elif key.endswith("from"):
-            wheres.append(key + " > " + query_dict[key][:-4] + " ")
+            wheres.append(key[:-4] + " > '" + query_dict[key] + "' ")
         elif key.endswith("to"):
-            wheres.append(key + " < " + query_dict[key][:-2] + " ")
+            wheres.append(key[:-2] + " < '" + query_dict[key] + "' ")
         else:
             wheres.append(key + " like " + "'%" + query_dict[key] + "%'" + " ")
     where = " and ".join(wheres)

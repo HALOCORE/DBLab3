@@ -70,10 +70,11 @@ def gen_all_insert_codes():
 
 
 if __name__ == '__main__':
-    all_code = 'use BankDB;'
+    all_code = 'use BankDB;\n'
     all_code += gen_truncate_all_tables() 
     all_code += "\n\n----------------------------------------------------------------\n\n"
     all_code += gen_all_insert_codes()
+    all_code += "\ncommit;\n"
     with open("insert.sql", 'w', encoding='utf-8') as f:
         f.write(all_code)
     print("# SQL 数据插入代码写入完成")

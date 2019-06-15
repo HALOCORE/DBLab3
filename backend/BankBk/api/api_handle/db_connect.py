@@ -112,4 +112,6 @@ def auto_auth(func):
             return httpRespError({'status':'error', 'describe':str(err)})
         except MyUpdateError as err:
             return httpRespError({'status':'error', 'describe':str(err)})
+        except KeyError as err:
+            return httpRespError({'status': 'error', 'describe':'可能是参数缺失造成参数字典KeyError. ' + str(err)})
     return wrapper
