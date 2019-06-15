@@ -68,4 +68,5 @@ select * from staff;
 select * from branch;
 */
 SELECT * FROM branch;
-
+select * from cusAccount;
+select * from depositAccount;
