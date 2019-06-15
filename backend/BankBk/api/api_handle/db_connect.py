@@ -40,27 +40,54 @@ def check_token(token:str):
 
 
 
-MSG_UNDEFINE = '{"status": "undefined"}'
-MSG_FORBIDDEN = '{"status": "forbidden"}'
-MSG_ERROR = '{"status": "error"}'
+MSG_UNDEFINE = {"status": "undefined"}
+MSG_FORBIDDEN = {"status": "forbidden"}
+MSG_ERROR = {"status": "error"}
 
 from django.http import HttpResponse
 import json
+from datetime import date, datetime
+from decimal import Decimal
+
+
+class CJsonEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, date):
+            return obj.strftime('%Y-%m-%d')
+        elif isinstance(obj, Decimal):
+            return str(obj)
+        else:
+            return json.JSONEncoder.default(self, obj)
+
 
 def httpRespForbidden(msg=MSG_FORBIDDEN):
-    return HttpResponse(json.dumps(msg), status=403, content_type=JSON_CONTENT_TYPE)
+    return HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
 
 def httpRespError(msg=MSG_ERROR):
-    return HttpResponse(json.dumps(msg), status=400, content_type=JSON_CONTENT_TYPE)
+    return HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
 
 def httpRespOK(status:str, metadata=None, data=None):
     """状态，元数据字典，数据字典"""
     data_pack = {"status":status, "metadata":metadata, "data":data}
-    return HttpResponse(json.dumps(data_pack), status=200, content_type=JSON_CONTENT_TYPE)
+    return HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder), status=200, content_type=JSON_CONTENT_TYPE)
 
 # --------------------- 权限检查装饰器 ---------------------
 
+from pymysql import MySQLError
 
+class MyDeleteError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return "(DeleteErr: primary key not found. %s)" % self.msg
+
+class MyUpdateError(Exception):
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return "(UpdateErr: param invalid. %s)" % self.msg
 
 def auto_auth(func):
     def wrapper(*args, **kwargs):
@@ -69,12 +96,22 @@ def auto_auth(func):
         auth_result = None
         if 'pwdtoken' in cookie:
             auth_result = check_token(cookie['pwdtoken'])
-        if auth_result is not None:
-            # 调用处理函数
-            return func(*args, **kwargs)
-        else:
-            # 拒绝访问
-            print("# debug mode. 权限检查关闭.")
-            return func(*args, **kwargs)
-            # return HttpResponse(json.dumps(msg), status=403, content_type=JSON_CONTENT_TYPE)
+        try:
+            if auth_result is not None:
+                # 调用处理函数
+                return func(*args, **kwargs)
+            else:
+                # 拒绝访问
+                print("# debug mode. 权限检查关闭.")
+                return func(*args, **kwargs)
+        except MySQLError as err:
+            if str(err).find('1064') > 0:
+                raise err
+            return httpRespError({'status':'error', 'describe':str(err)})
+        except MyDeleteError as err:
+            return httpRespError({'status':'error', 'describe':str(err)})
+        except MyUpdateError as err:
+            return httpRespError({'status':'error', 'describe':str(err)})
+        except KeyError as err:
+            return httpRespError({'status': 'error', 'describe':'可能是参数缺失造成参数字典KeyError. ' + str(err)})
     return wrapper

@@ -35,4 +35,5 @@ urlpatterns = [
     # Loan
     path('APILoan/', api_loan.handle_main),
     path('APILoan/<loan_id>', api_loan.handle_id),
+    path('APILoan/<loan_id>/Pay', api_loan.handle_pay),
 ]
