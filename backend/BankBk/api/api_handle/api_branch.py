@@ -30,11 +30,12 @@ def handle_name(request, branch_name):
         return db_connect.httpRespOK("OK",metadata,data)
     elif request.method == 'PUT': # 更新一个支行信息
         put = QueryDict(request.body)
-        field = put.get('field',None)
-        field_value = put.get('field_value',None)
+        field = put.getlist('field',None)
+        field_value = put.getlist('field_value',None)
         api__REQUEST.specify_update('branch',field,field_value,'branchName',branch_name)
         return db_connect.httpRespOK("OK")
     elif request.method == 'DELETE': # 删除一个支行信息
         api__REQUEST.specify_delete('branch', 'branchName', branch_name)
+        return db_connect.httpRespOK("OK")
     else:
         return db_connect.httpRespError()

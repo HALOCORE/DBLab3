@@ -1,10 +1,11 @@
 from . import db_connect
+
 """查询"""
 #执行查询语句，返回所有表头和所有数据
 def query_all(sql:str, parameter=()):
     try:
         cursor = db_connect.connection.cursor()
-        print("# query_all: ", sql % parameter)
+        print("# query_all:", sql, ", params:", parameter)
         if len(parameter)==0:
             cursor.execute(sql)
         else:
@@ -41,39 +42,48 @@ def specify_get(select_columns, from_table, key_name, key_value):
 # 单个删除
 def specify_delete(from_table, key_name, key_value):
     """key_name key_value 是主键名称和值"""
+    sql = "SELECT " + key_name + " FROM " + from_table + " WHERE " + key_name + " = %s"
+    _, data = query_all(sql,(key_value,))
+    if len(data) != 1:
+        raise db_connect.MyDeleteError("table: %s, key:%s, keyval:%s" % (from_table, key_name, key_value))
     sql = "DELETE FROM " + from_table + " WHERE " + key_name + " = %s"
-    modify_table(sql, ())
+    modify_table(sql, (key_value,))
 
 
 
-# 单个更新(表无连接)
-def specify_update(from_table, field:list,field_value:list,key,value):
+# 单个更新(表无连接) 目前只更新字符串字段。需要引入列类型检查！# TODO: 非字符串字段更新
+def specify_update(from_table, field:list,field_value:list, key, value):
     """key_name key_value 是主键名称和值"""
-    if field is None or field_value is None :
-        return db_connect.httpRespError()
+    if field is None or field_value is None:
+        print("specify_update ERROR: ", field, field_value)
+        raise db_connect.MyUpdateError("field or field_value is None.")
     if len(field) != len(field_value):
-        return db_connect.httpRespError()
+        print("specify_update ERROR: ", field, field_value)
+        raise db_connect.MyUpdateError("field and field_value have different length.")
     head = "UPDATE "+from_table+" SET "
-    new_data = [field[i]+'='+field_value[i] for i in len(field)]
-    where = " WHERE "+key+"="+value
+    new_data = ["%s = '%s'" % (field[i], field_value[i]) for i in range(len(field))]
+    where = " WHERE " + key + " = %s "
     sql = head + ", ".join(new_data) + where
-    modify_table(sql, ())
+    print("# specify update. ", sql)
+    modify_table(sql, (value,))
+
 
 
 # 生成where子句
 def gen_where(query_dict):
-    where = ""
+    wheres = list()
     for key in query_dict:
         if key.endswith("lt"):
-            where += key + " < " + query_dict[key][:-2] + " "
+            wheres.append(key + " < " + query_dict[key][:-2] + " ")
         elif key.endswith("rt"):
-            where += key + " > " + query_dict[key][:-2] + " "
+            wheres.append(key + " > " + query_dict[key][:-2] + " ")
         elif key.endswith("from"):
-            where += key + " > " + query_dict[key][:-4] + " "
+            wheres.append(key + " > " + query_dict[key][:-4] + " ")
         elif key.endswith("to"):
-            where += key + " < " + query_dict[key][:-2] + " "
+            wheres.append(key + " < " + query_dict[key][:-2] + " ")
         else:
-            where += key + " like " + "'%" + query_dict[key] + "%'" + " "
+            wheres.append(key + " like " + "'%" + query_dict[key] + "%'" + " ")
+    where = " and ".join(wheres)
     print("# gen_where: " + where)
     return where
 
