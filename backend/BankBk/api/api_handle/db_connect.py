@@ -63,16 +63,21 @@ class CJsonEncoder(json.JSONEncoder):
 
 
 def httpRespForbidden(msg=MSG_FORBIDDEN):
-    return HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
+    resp = HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 def httpRespError(msg=MSG_ERROR):
-    return HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
+    resp = HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
 
 def httpRespOK(status:str, metadata=None, data=None):
     """状态，元数据字典，数据字典"""
     data_pack = {"status":status, "metadata":metadata, "data":data}
-    return HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder, indent=2), status=200, content_type=JSON_CONTENT_TYPE)
-
+    resp = HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder, indent=2), status=200, content_type=JSON_CONTENT_TYPE)
+    resp['Access-Control-Allow-Origin'] = '*'
+    return resp
 # --------------------- 权限检查装饰器 ---------------------
 
 from pymysql import MySQLError
