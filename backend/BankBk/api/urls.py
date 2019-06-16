@@ -24,7 +24,6 @@ urlpatterns = [
     path('APIAccount/Deposit/<deposit_id>', api_account.handle_deposit_id),
     path('APIAccount/Cheque/<cheque_id>', api_account.handle_cheque_id),
 
-    path('APIAccount/<account_id>', api_account.handle_id),
     path('APIAccount/<account_id>/Customer', api_account.handle_id_customer),
     path('APIAccount/<account_id>/Staff', api_account.handle_id_staff),
 

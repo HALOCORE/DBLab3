@@ -127,7 +127,7 @@ def query_fuzz(select_columns, from_table, query_dict):
     return metadata, data
 
 
-# 模糊查询(连接)
+# 模糊查询(连接) 未使用
 def query_fuzz_join(select_columns, tab1, key1, tab2, key2, query_dict):
     sql = "SELECT "
     column_num = len(select_columns)

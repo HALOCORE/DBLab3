@@ -25,10 +25,11 @@ def handle_id(request, loan_id):
         metadata, data = api__REQUEST.specify_get([], 'loan', 'loanIDX', loan_id)
         return db_connect.httpRespOK("OK", metadata, data)
     elif request.method == 'DELETE': # 删除
-        pass
-        # TODO: 无返回值的存储过程。
+        # 无返回值的存储过程。
         # 删除时判断能不能删。如果能删，先删记录再删贷款；
         #                   如果不能删，存储过程抛出异常。
+        api__REQUEST.call_procedure('proc_delete_loan', [loan_id])
+        return db_connect.httpRespOK('OK')
     else:
         return db_connect.httpRespError()
 
