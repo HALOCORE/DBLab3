@@ -9,13 +9,13 @@ use BankDB;
 delimiter $$
 DROP PROCEDURE if exists `proc_new_cheAccount`;
 CREATE PROCEDURE `proc_new_cheAccount` (
-    --检查所需信息
+    -- 检查所需信息
 	in var_staffID          varchar(20),
     in var_customID         varchar(18),
-    --新建所需信息
+    -- 新建所需信息
     in var_accountIDX       varchar(30),
     in var_remain           float(8,2))
-    --支票账户透支额度在存储过程中设置：初始2000，开户时间每增一年，额度+2000
+    -- 支票账户透支额度在存储过程中设置：初始2000，开户时间每增一年，额度+2000
 BEGIN
     DECLARE staff_bran_branchName varchar(20) DEFAULT null;
     DECLARE customID_record varchar(18) DEFAULT null;
@@ -51,6 +51,7 @@ CREATE PROCEDURE `proc_alter_cheAccount` (
     in var_customID varchar(18),
     in var_alter_money float(8,2))
 BEGIN
+    DECLARE var_after_alter float(8,2) DEFAULT null;
     DECLARE cheAccount_record varchar(30) DEFAULT null;
     DECLARE check_neg_limit float(8,2) DEFAULT null;
     DECLARE check_identity varchar(18) DEFAULT null;
@@ -59,7 +60,7 @@ BEGIN
     DECLARE acc_nowtime datetime DEFAULT null;
     DECLARE account_duration int DEFAULT null;
     
-    select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX;
+    select cust_customID into check_identity from cus_and_cheAccount where cust_customID=var_customID and cheq_cusA_accountIDX = var_accountIDX;
     select remain, openTime into account_remain, acc_opentime from cusAccount where accountIDX = var_accountIDX;
     select cusA_accountIDX, neg_limit into cheAccount_record, check_neg_limit 
      from chequeAccount where cusA_accountIDX = var_accountIDX;
@@ -76,14 +77,15 @@ BEGIN
 	 	SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: this is not your chequeAccount.', MYSQL_ERRNO = 1001; -- not sure
 	end if;
-    --先看额度是否可增加，再判断是否超出额度
+    -- 先看额度是否可增加，再判断是否超出额度
     set acc_nowtime = sysdate();
     set account_duration = TIMESTAMPDIFF(YEAR,acc_opentime,acc_nowtime);
-    set check_neg_limit = (account_duration+1)*2000.0
-    if account_remain+var_alter_money < (-check_neg_limit) then
+    set check_neg_limit = (account_duration+1)*2000.0;
+    set var_after_alter = -account_remain-var_alter_money;
+    if var_after_alter > check_neg_limit then
         SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: Beyond the limit.', MYSQL_ERRNO = 1001; -- not sure
-    end if
+    end if;
 
     update cusAccount set remain=account_remain+var_alter_money, visitTime=acc_nowtime where accountIDX = var_accountIDX;
     update chequeAccount set neg_limit=check_neg_limit where cusA_accountIDX = var_accountIDX;
@@ -104,8 +106,8 @@ BEGIN
 	DECLARE cheAccount_record varchar(30) DEFAULT null;
     DECLARE check_identity varchar(18) DEFAULT null;
 
-	select accountIDX,remain into cusAccount_record, account_remain from cusAccount where accountIDX = var_accountIDX;
-	select cusA_accountIDX into cheAccount_record from chequeAccount where cusA_accountIDX = var_accountIDX;
+	select accountIDX,remain into cusAccount_record, account_remain from cusAccount where accountIDX = var_accountIDX limit 1;
+	select cusA_accountIDX into cheAccount_record from chequeAccount where cusA_accountIDX = var_accountIDX limit 1;
 
 	if cusAccount_record is null then
 	 	SIGNAL SQLSTATE '45000'
