@@ -179,19 +179,26 @@ def excu_statistics(sql):
 
 """求和"""
 def calc_sum(column,table_name,sum_where):
-    sql = "SELECT bran_branchName,SUM("+column+") AS sum_"+column+" FROM "
-    +table_name+" WHERE "+sum_where+" GROUP BY bran_branchName"
+    sql = "SELECT bran_branchName,SUM("+column+") AS sum_"+column+" FROM "\
+    +table_name+sum_where+" GROUP BY bran_branchName"
     metadata, data = excu_statistics(sql)
     return metadata, data
 
-def calc_currency(sum_where):
-    sql = "SELECT a.bran_branchName, b.currency SUM('remain') AS sum_remain \
-    FROM cusAccount a,depositAccount b WHERE "+sum_where+" GROUP BY a.bran_branchName, b.currency"
+def calc_currency(data_dict):
+    sql = ""
+    if len(data_dict) == 0:
+        sql = "SELECT a.bran_branchName, b.currency, SUM(a.remain) AS sum_remain "\
+    +"FROM cusAccount a,depositAccount b WHERE a.accountType='deposit'"+\
+    " AND a.accountIDX=b.cusA_accountIDX GROUP BY a.bran_branchName, b.currency"
+    else:
+        sql = "SELECT a.bran_branchName, b.currency, SUM(a.remain) AS sum_remain "\
+    +"FROM cusAccount a,depositAccount b WHERE a.accountType='deposit' AND "+gen_where(data_dict)+\
+    " AND a.accountIDX=b.cusA_accountIDX GROUP BY a.bran_branchName, b.currency"
     metadata, data = excu_statistics(sql)
     return metadata, data
 
 def calc_count(table_name,count_where):
-    sql = "SELECT bran_branchName,COUNT(*) AS count_"+table_name+" FROM "
-    +table_name+" WHERE "+count_where+" GROUP BY bran_branchName"
+    sql = "SELECT bran_branchName,COUNT(*) AS count_"+table_name+" FROM "\
+    +table_name+count_where+" GROUP BY bran_branchName"
     metadata, data = excu_statistics(sql)
     return metadata, data
