@@ -71,7 +71,7 @@ def httpRespError(msg=MSG_ERROR):
 def httpRespOK(status:str, metadata=None, data=None):
     """状态，元数据字典，数据字典"""
     data_pack = {"status":status, "metadata":metadata, "data":data}
-    return HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder), status=200, content_type=JSON_CONTENT_TYPE)
+    return HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder, indent=2), status=200, content_type=JSON_CONTENT_TYPE)
 
 # --------------------- 权限检查装饰器 ---------------------
 

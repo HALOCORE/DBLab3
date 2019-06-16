@@ -143,4 +143,14 @@ if test_ctl['Loan']:
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay"))  
     # 支付某个贷款的一部分(loan pay)
     printresp(requests.post("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 100}))  
+    # 创建贷款
+    printresp(requests.post("http://localhost:8000/api/v1/APILoan/", 
+        {
+            "loanIDX": "44449999000022221111",
+            "staf_staffID": "443403199605063164",
+            "bran_branchName": "SHB",
+            "loanDate": "2019-06-16 00:00:00",
+            "loanAmount": 55000.0
+        }
+    ))
     # 删除贷款 TODO
