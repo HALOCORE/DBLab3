@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>支行管理</title>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+  <script src="branch.js"></script>
+</head>
+
+<body>
+    <script>
+    var url = "http://localhost:8000/api/v1/APIBranch/";
+    Ajax('GET', url,  '', alert, alert);      
+      </script>
+    <table id="table">
+        <thead>
+          <tr>
+            <th data-field="city">city</th>
+            <th data-field="branchName">branchName</th>
+          </tr>
+        </thead>
+      </table>
+</body>
+

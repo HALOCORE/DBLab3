@@ -1,0 +1,10 @@
+{
+"status": "OK", 
+"metadata": ["city", "branchName"], 
+"data": [
+    {"city": "Tokyo", "branchName": "AAA"}, 
+    {"city": "Hefei", "branchName": "AHB"}, 
+    {"city": "Beijing", "branchName": "BJB"}, 
+    {"city": "Shanghai", "branchName": "SHB"}
+]
+}

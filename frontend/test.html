@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap 实例</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <script src="login.js"></script>
+</head>
+
+<body>
+        <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>数据库管理系统</h1>
+                        <p></p>
+                        <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 pull-right">
+                        <ul>
+                            <p>功能</p>
+                            <li class="list-item">
+                                支行管理
+                            </li>
+                            <li class="list-item">
+                                员工管理
+                            </li>
+                            <li class="list-item">
+                                客户管理
+                            </li>
+                            <li class="list-item">
+                                账户管理
+                            </li>
+                            <li class="list-item">
+                                贷款管理
+                            </li>
+                            <li class="list-item">
+                                业务统计
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <form role="form">
+                            <div class="form-group">
+                                 
+                                <label for="exampleInputEmail1" >
+                                    账户
+                                </label>
+                                <input type="" class="form-control" id="account" />
+                            </div>
+                            <div class="form-group">
+                                 
+                                <label for="exampleInputPassword1">
+                                    密码
+                                </label>
+                                <input type="password" class="form-control" id="password" />
+                            </div>
+                            <!-- <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" /> Check me out
+                                </label>
+                            </div>  -->
+                            <button type="submit" class="btn btn-primary" id="loginSubmit" onclick="login()">
+                                Submit
+                            </button>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        Designed  from  LayoutIt
+                    </div>
+                </div>
+            </div>
+</body>
