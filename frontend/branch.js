@@ -78,7 +78,7 @@ function Ajax(type, url, data, success, failed){
         if(data){
             xhr.open('GET', url + '?' + data, true);
         } else {
-            xhr.open('GET', url + '?t=' + random, true);
+            xhr.open('GET', url, true);
         }
         xhr.send();
  

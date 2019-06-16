@@ -12,8 +12,8 @@ def printresp(resp:requests.Response):
         print("# 404.")
     else:
         rtxt = str(resp.content, encoding = "utf-8")
-        if len(rtxt) > 400:
-            print("status:", resp.status_code, " content:", rtxt[:400], "...... ")
+        if len(rtxt) > 500:
+            print("status:", resp.status_code, " content:", rtxt[:500], "...... ")
         else:
             print("status:", resp.status_code, " content:", rtxt)
 
@@ -141,8 +141,6 @@ if test_ctl['Loan']:
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063"))  
     # 获取某个贷款的发放记录
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay"))  
-    # 支付某个贷款的一部分(loan pay)
-    printresp(requests.post("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 100}))  
     # 创建贷款
     printresp(requests.post("http://localhost:8000/api/v1/APILoan/", 
         {
@@ -153,4 +151,10 @@ if test_ctl['Loan']:
             "loanAmount": 55000.0
         }
     ))
-    # 删除贷款 TODO
+    # 获取某个贷款
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/44449999000022221111"))  
+    # 支付贷款（支付2次，总共达到总额）
+    printresp(requests.post("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 22000}))  
+    printresp(requests.post("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 33000}))  
+    # 删除贷款
+    printresp(requests.delete("http://localhost:8000/api/v1/APILoan/44449999000022221111"))
