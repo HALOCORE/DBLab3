@@ -7,13 +7,13 @@ urlpatterns = [
     path('auth/logout', api__AUTH.logout),
 
     # Customer
-    path('APICustomer/', api_customer.handle_main),
+    path('APICustomer', api_customer.handle_main),
     path('APICustomer/<customer_id>', api_customer.handle_id),
     path('APICustomer/<customer_id>/CusAccount', api_customer.handle_id_cusaccount),
     path('APICustomer/<customer_id>/Loan', api_customer.handle_id_loan),
 
     # Staff
-    path('APIStaff/', api_staff.handle_main),
+    path('APIStaff', api_staff.handle_main),
     path('APIStaff/<staff_id>', api_staff.handle_id),
     path('APIStaff/<staff_id>/CusAccount', api_staff.handle_id_cusaccount),
     path('APIStaff/<staff_id>/Loan', api_staff.handle_id_loan),
@@ -28,7 +28,7 @@ urlpatterns = [
     path('APIAccount/<account_id>/Staff', api_account.handle_id_staff),
 
     # Branch
-    path('APIBranch/', api_branch.handle_main),
+    path('APIBranch', api_branch.handle_main),
     path('APIBranch/<branch_name>', api_branch.handle_name),
 
     # Loan
@@ -37,8 +37,8 @@ urlpatterns = [
     path('APILoan/<loan_id>/Pay', api_loan.handle_pay),
 
     # Statistic
-    path('APIStatistic/Deposit/', api_statistic.handle_deposit),
-    path('APIStatistic/Cheque/', api_statistic.handle_cheque),
-    path('APIStatistic/Loan/', api_statistic.handle_loan),
+    path('APIStatistic/Deposit', api_statistic.handle_deposit),
+    path('APIStatistic/Cheque', api_statistic.handle_cheque),
+    path('APIStatistic/Loan', api_statistic.handle_loan),
     
 ]
