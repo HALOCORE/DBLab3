@@ -78,7 +78,7 @@ function Ajax(type, url, data, success, failed){
         if(data){
             xhr.open('GET', url + '?' + data, true);
         } else {
-            xhr.open('GET', url + '?t=' + random, true);
+            xhr.open('GET', url , true);
         }
         xhr.send();
  
@@ -86,11 +86,19 @@ function Ajax(type, url, data, success, failed){
         xhr.open('POST', url, true);
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send(data);
+    } else if(type == 'DELETE'){  
+        xhr.open('DELETE', url, true);
+        xhr.send();
+    } else if(type == 'PUT'){
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        xhr.send(data);
     }
- 
+    
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
             if(xhr.status == 200){
+                alert("success");
                 success(xhr.responseText);
             } else {
                 if(failed){
