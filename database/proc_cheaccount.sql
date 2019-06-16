@@ -97,8 +97,7 @@ use BankDB;
 delimiter $$
 DROP PROCEDURE if exists `proc_delete_cheAccount`;
 CREATE PROCEDURE `proc_delete_cheAccount` (
-	in var_accountIDX varchar(30),
-    in var_customID varchar(18))
+	in var_accountIDX varchar(30))
 BEGIN
 	DECLARE cusAccount_record varchar(30) DEFAULT null;
     DECLARE account_remain float(8,2) DEFAULT null;
@@ -107,7 +106,6 @@ BEGIN
 
 	select accountIDX,remain into cusAccount_record, account_remain from cusAccount where accountIDX = var_accountIDX;
 	select cusA_accountIDX into cheAccount_record from chequeAccount where cusA_accountIDX = var_accountIDX;
-	select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX;
 
 	if cusAccount_record is null then
 	 	SIGNAL SQLSTATE '45000'
@@ -117,14 +115,7 @@ BEGIN
 	 	SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: no this record in table chequeAccount.', MYSQL_ERRNO = 1001; -- not sure
 	end if;
-    if check_identity is null then
-	 	SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = 'Error: you have not registered in our branch.', MYSQL_ERRNO = 1001; -- not sure
-	end if;
-    if check_identity != var_customID then
-	 	SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = 'Error: this is not your chequeAccount.', MYSQL_ERRNO = 1001; -- not sure
-	end if;
+   
     if account_remain < 0.0 then
         SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: you have not paid the money back yet in this chequeAccount.', MYSQL_ERRNO = 1001; -- not sure
@@ -139,3 +130,14 @@ BEGIN
 	delete from cusAccount where accountIDX = var_accountIDX;
 
 END $$
+
+    -- in var_customID varchar(18))
+	-- select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX;
+    -- if check_identity is null then
+	--  	SIGNAL SQLSTATE '45000'
+	-- 	SET MESSAGE_TEXT = 'Error: you have not registered in our branch.', MYSQL_ERRNO = 1001; -- not sure
+	-- end if;
+    -- if check_identity != var_customID then
+	--  	SIGNAL SQLSTATE '45000'
+	-- 	SET MESSAGE_TEXT = 'Error: this is not your chequeAccount.', MYSQL_ERRNO = 1001; -- not sure
+	-- end if;
