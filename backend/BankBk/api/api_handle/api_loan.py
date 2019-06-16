@@ -32,8 +32,27 @@ def handle_id(request, loan_id):
         #                   如果不能删，存储过程抛出异常。
         api__REQUEST.call_procedure('proc_delete_loan', [loan_id])
         return db_connect.httpRespOK('OK')
+    elif request.method == 'POST': # 给该贷款账户添加客户
+        api__REQUEST.insert_one('cus_and_loan', {
+            'cust_customID': request.POST['cust_customID'],
+            'loan_loanIDX': loan_id})
+        return db_connect.httpRespOK("OK")
     else:
         return db_connect.httpRespError()
+
+
+@db_connect.auto_auth
+def handle_id_customer(request, loan_id):
+    if request.method == 'GET':
+        sql = "SELECT * from customer WHERE " + \
+            "customID in " + \
+            "(SELECT cust_customID from cus_and_loan WHERE " + \
+            "loan_loanIDX = %s)"
+        param = (loan_id,)
+        metadata, data = api__REQUEST.query_all(sql, param)
+        return db_connect.httpRespOK("OK", metadata, data)
+    else:
+        return db_connect.httpRespError("不支持的method.")
 
 
 @db_connect.auto_auth

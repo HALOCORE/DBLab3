@@ -77,6 +77,11 @@ def handle_deposit_id(request, deposit_id):
     elif request.method == 'DELETE':
         api__REQUEST.call_procedure('proc_delete_depAccount', [deposit_id])
         return db_connect.httpRespOK("OK")
+    elif request.method == 'POST': # 给账户添加用户
+        api__REQUEST.insert_one('cus_and_depAccount', {
+            'cust_customID': request.POST['cust_customID'],
+            'depo_cusA_accountIDX': deposit_id})
+        return db_connect.httpRespOK("OK")
     else:
         return db_connect.httpRespError("不支持的method.")
 
@@ -104,22 +109,39 @@ def handle_cheque_id(request, cheque_id):
     elif request.method == 'DELETE':
         api__REQUEST.call_procedure('proc_delete_cheAccount', [cheque_id])
         return db_connect.httpRespOK("OK")
+    elif request.method == 'POST': # 给账户添加用户
+        api__REQUEST.insert_one('cus_and_cheAccount', {
+            'cust_customID': request.POST['cust_customID'],
+            'cheq_cusA_accountIDX': cheque_id})
+        return db_connect.httpRespOK("OK")
     else:
         return db_connect.httpRespError("不支持的method.")
 
 
 
 @db_connect.auto_auth
-def handle_id_customer(request, account_id):
+def handle_deposit_customer(request, deposit_id):
     if request.method == 'GET':
-        pass
+        sql = "SELECT * from customer WHERE " + \
+            "customID in " + \
+            "(SELECT cust_customID from cus_and_depAccount WHERE " + \
+            "depo_cusA_accountIDX = %s)"
+        param = (deposit_id,)
+        metadata, data = api__REQUEST.query_all(sql, param)
+        return db_connect.httpRespOK("OK", metadata, data)
     else:
-        return db_connect.httpRespError()
+        return db_connect.httpRespError("不支持的method.")
 
 
 @db_connect.auto_auth
-def handle_id_staff(request, account_id):
+def handle_cheque_customer(request, cheque_id):
     if request.method == 'GET':
-        pass
+        sql = "SELECT * from customer WHERE " + \
+            "customID in " + \
+            "(SELECT cust_customID from cus_and_cheAccount WHERE " + \
+            "cheq_cusA_accountIDX = %s)"
+        param = (cheque_id,)
+        metadata, data = api__REQUEST.query_all(sql, param)
+        return db_connect.httpRespOK("OK", metadata, data)
     else:
-        return db_connect.httpRespError()
+        return db_connect.httpRespError("不支持的method.")

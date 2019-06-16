@@ -20,12 +20,13 @@ def printresp(resp:requests.Response):
 
 ###################################################################################################
 
+# ------------------ 测试控制 ------------------
 test_ctl = {
     'Customer':False, 
     'Staff':False, 
     'DepAccount':False, 
     'CheAccount':False, 
-    'Branch':True, 
+    'Branch':False, 
     'Loan':False,
     'Statistic':False
 }
@@ -38,30 +39,34 @@ if test_ctl['Customer']:
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer?customName=%E5%B1%B1"))
     # 获取单个（存在）
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200601286584"))
-    # 获取单个（不存在）
-    printresp(requests.get("http://localhost:8000/api/v1/APICustomer/123455543211111111"))
-    # 删除单个（不存在）
-    printresp(requests.delete("http://localhost:8000/api/v1/APICustomer/221888888888888888"))
-    
-        # 删除单个（存在）主键约束不可删
-    printresp(requests.delete("http://localhost:8000/api/v1/APICustomer/221403200601286584"))
-        # 创建单个（存在）重复主键不能创建
-    printresp(requests.post("http://localhost:8000/api/v1/APICustomer",
-        {"customID": "221403200601286584", "customPhone": "1385110025900", "customAddress": "上海", "customName": "宋大山", 
-        "relName": "钱上", "relPhone": "1735054008861", "relEmail": "centbest@hotmail.com", "relRelation": "配偶"}))
-
+    # 获取单个（不存在） printresp(requests.get("http://localhost:8000/api/v1/APICustomer/123455543211111111"))
+    # 删除单个（不存在） printresp(requests.delete("http://localhost:8000/api/v1/APICustomer/221888888888888888"))
+    # 删除单个（存在）主键约束不可删 printresp(requests.delete("http://localhost:8000/api/v1/APICustomer/221403200601286584"))
+    # 创建单个（存在）重复主键不能创建 printresp(requests.post("http://localhost:8000/api/v1/APICustomer",
+        # {"customID": "221403200601286584", "customPhone": "1385110025900", "customAddress": "上海", "customName": "宋大山", 
+        # "relName": "钱上", "relPhone": "1735054008861", "relEmail": "centbest@hotmail.com", "relRelation": "配偶"}))
     # 更新单个
     printresp(requests.put("http://localhost:8000/api/v1/APICustomer/221403200601286584", {'field':['customPhone', 'customAddress'], 'field_value':['1331101010000', '吉林']}))
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200601286584"))
     printresp(requests.put("http://localhost:8000/api/v1/APICustomer/221403200601286584", {'field':['customPhone', 'customAddress'], 'field_value':['1385110025900', '长沙']}))
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200601286584"))
-
     # 测试一个Customer的Account
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200504282880/CusAccount"))
     # 测试一个Customer的Loan
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200504282880/Loan"))
-
-
+    # 创建单个
+    printresp(requests.post("http://localhost:8000/api/v1/APICustomer", {
+        "customID": "555555155115511551",
+        "customPhone": "1441441414144",
+        "customAddress": "重庆",
+        "customName": "吴所谓",
+        "relName": "吴京",
+        "relPhone": "1441441444444",
+        "relEmail": "jingjing@hotmail.com",
+        "relRelation": "爸爸"}))
+    printresp(requests.get("http://localhost:8000/api/v1/APICustomer/555555155115511551"))
+    # 删除单个
+    printresp(requests.delete("http://localhost:8000/api/v1/APICustomer/555555155115511551"))
 
 # # Staff
 if test_ctl['Staff']:
@@ -101,6 +106,8 @@ if test_ctl['DepAccount']:
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit?currency=RMB"))
     # 单个储蓄账户
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit/00403386247866740608"))
+    # 单个储蓄账户的客户
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit/00403386247866740608/Customer"))
     # 储蓄创建
     printresp(requests.post("http://localhost:8000/api/v1/APIAccount/Deposit",
         {
@@ -111,6 +118,10 @@ if test_ctl['DepAccount']:
             "currency": "RMB",
             "interest": "3.230"
         }))
+    # 给这个账户添加其它用户
+    printresp(requests.post("http://localhost:8000/api/v1/APIAccount/Deposit/00000088888866666699",{
+        "cust_customID": "410403198512235470"}))
+    # 这个客户应该多了一个账户 printresp(requests.get("http://localhost:8000/api/v1/APICustomer/410403198512235470/CusAccount"))
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit/00000088888866666699"))
     # 储蓄更改（余额变动为-10000(花完)，否则下一步不能删除）
     printresp(requests.put("http://localhost:8000/api/v1/APIAccount/Deposit/00000088888866666699", {
@@ -120,7 +131,8 @@ if test_ctl['DepAccount']:
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit/00000088888866666699"))
     # 储蓄删除
     printresp(requests.delete("http://localhost:8000/api/v1/APIAccount/Deposit/00000088888866666699"))
-    
+    # 这个客户应该少一个账户 printresp(requests.get("http://localhost:8000/api/v1/APICustomer/410403198512235470/CusAccount"))
+
 
 
 if test_ctl['CheAccount']:
@@ -131,6 +143,8 @@ if test_ctl['CheAccount']:
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque?remainlt=20000&neg_limitgt=3000"))
     # 单个支票账户
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque/00278883948040893941"))
+    # 单个支票账户的客户
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque/00278883948040893941/Customer"))
     # 支票创建
     printresp(requests.post("http://localhost:8000/api/v1/APIAccount/Cheque",
         {
@@ -139,6 +153,9 @@ if test_ctl['CheAccount']:
             "accountIDX": "11111188888866666600",
             "remain": 10000.0
         }))
+    # 给这个支票账户添加其它用户(添加后410403199604140379多一个账户)
+    printresp(requests.post("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600",{
+        "cust_customID": "410403199604140379"}))
     # 支票修改(改为0)
     printresp(requests.put("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600", {
         'field': ['cust_customID', 'remain_change'],
@@ -148,17 +165,16 @@ if test_ctl['CheAccount']:
         'field': ['cust_customID', 'remain_change'],
         'field_value':['221403200504282880', -1000]
     }))
-        # 这个会花超，失败。
-    printresp(requests.put("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600", {
-        'field': ['cust_customID', 'remain_change'],
-        'field_value':['221403200504282880', -1000]
-    }))
+    # 这个会花超，失败。
+    # printresp(requests.put("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600", {
+    #     'field': ['cust_customID', 'remain_change'],
+    #     'field_value':['221403200504282880', -1000]}))
     printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600"))
     printresp(requests.put("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600", {
         'field': ['cust_customID', 'remain_change'],
         'field_value':['221403200504282880', +2000]
     }))
-    # 支票删除（余额0才能删）
+    # 支票删除（余额0才能删）（删除后410403199604140379少一个账户）
     printresp(requests.delete("http://localhost:8000/api/v1/APIAccount/Cheque/11111188888866666600"))
 
 
@@ -190,6 +206,8 @@ if test_ctl['Loan']:
     printresp(requests.get("http://localhost:8000/api/v1/APILoan?loanDatefrom=2019-11-01&loanDateto=2020-01-01"))
     # 获取某个贷款
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063"))  
+    # 获取某个贷款的用户
+    printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063/Customer"))  
     # 获取某个贷款的发放记录
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/41423895546771431063/Pay"))  
     # 创建贷款
@@ -204,12 +222,15 @@ if test_ctl['Loan']:
     ))
     # 获取某个贷款
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/44449999000022221111"))  
+    # 给该贷款账户添加客户
+    printresp(requests.post("http://localhost:8000/api/v1/APILoan/44449999000022221111", {
+        "cust_customID": "410403199312140490"}))
     # 支付贷款（支付2次，总共达到总额）
         # 第一次支付
     printresp(requests.post("http://localhost:8000/api/v1/APILoan/44449999000022221111/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 22000}))  
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/44449999000022221111/Pay"))  
         # 失败的删除
-    printresp(requests.delete("http://localhost:8000/api/v1/APILoan/44449999000022221111"))
+    # printresp(requests.delete("http://localhost:8000/api/v1/APILoan/44449999000022221111"))
         # 第二次支付
     printresp(requests.post("http://localhost:8000/api/v1/APILoan/44449999000022221111/Pay", {"loanPayDate": datetime.datetime.now(), "loanPayAmount": 33000}))  
     printresp(requests.get("http://localhost:8000/api/v1/APILoan/44449999000022221111/Pay"))  
@@ -223,7 +244,7 @@ if test_ctl['Statistic']:
     printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Deposit"))
     printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Cheque"))
     # 按照三类账户,统计起止时间
-    printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Loan/loanDatefrom=2018-01-01&loanDateto=2019-08-01"))
-    printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Deposit/openTimefrom=2018-01-01&openTimeto=2019-08-01"))
-    printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Cheque/openTimefrom=2018-01-01&openTimeto=2019-08-01"))
+    printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Loan?loanDatefrom=2012-01-01&loanDateto=2020-12-01"))
+    printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Deposit?openTimefrom=2012-01-01&openTimeto=2020-12-01"))
+    printresp(requests.get("http://localhost:8000/api/v1/APIStatistic/Cheque?openTimefrom=2012-01-01&openTimeto=2020-12-01"))
     

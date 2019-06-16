@@ -23,17 +23,17 @@ urlpatterns = [
     path('APIAccount/Cheque', api_account.handle_cheque),
     path('APIAccount/Deposit/<deposit_id>', api_account.handle_deposit_id),
     path('APIAccount/Cheque/<cheque_id>', api_account.handle_cheque_id),
-
-    path('APIAccount/<account_id>/Customer', api_account.handle_id_customer),
-    path('APIAccount/<account_id>/Staff', api_account.handle_id_staff),
-
+    path('APIAccount/Deposit/<deposit_id>/Customer', api_account.handle_deposit_customer),
+    path('APIAccount/Cheque/<cheque_id>/Customer', api_account.handle_cheque_customer),
+    
     # Branch
     path('APIBranch', api_branch.handle_main),
     path('APIBranch/<branch_name>', api_branch.handle_name),
 
     # Loan
-    path('APILoan/', api_loan.handle_main),
+    path('APILoan', api_loan.handle_main),
     path('APILoan/<loan_id>', api_loan.handle_id),
+    path('APILoan/<loan_id>/Customer', api_loan.handle_id_customer),
     path('APILoan/<loan_id>/Pay', api_loan.handle_pay),
 
     # Statistic
