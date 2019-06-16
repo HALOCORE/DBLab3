@@ -62,13 +62,17 @@ class CJsonEncoder(json.JSONEncoder):
             return json.JSONEncoder.default(self, obj)
 
 
-def httpRespForbidden(msg=MSG_FORBIDDEN):
-    resp = HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
+def httpRespForbidden(msg=""):
+    resp_dict = MSG_FORBIDDEN.copy()
+    resp_dict['describe'] = msg
+    resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
     resp['Access-Control-Allow-Origin'] = '*'
     return resp
 
-def httpRespError(msg=MSG_ERROR):
-    resp = HttpResponse(json.dumps(msg, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
+def httpRespError(msg=""):
+    resp_dict = MSG_ERROR.copy()
+    resp_dict['describe'] = msg
+    resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
     resp['Access-Control-Allow-Origin'] = '*'
     return resp
 
@@ -112,11 +116,11 @@ def auto_auth(func):
         except MySQLError as err:
             if str(err).find('1064') > 0:
                 raise err
-            return httpRespError({'status':'error', 'describe':str(err)})
+            return httpRespError(str(err))
         except MyDeleteError as err:
-            return httpRespError({'status':'error', 'describe':str(err)})
+            return httpRespError(str(err))
         except MyUpdateError as err:
-            return httpRespError({'status':'error', 'describe':str(err)})
+            return httpRespError(str(err))
         except KeyError as err:
-            return httpRespError({'status': 'error', 'describe':'可能是参数缺失造成参数字典KeyError. ' + str(err)})
+            return httpRespError('可能是参数缺失造成参数字典KeyError. ' + str(err))
     return wrapper
