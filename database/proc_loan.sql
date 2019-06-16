@@ -71,19 +71,24 @@ BEGIN
 END $$
 
 ----------------------------------------------------------------------------------------------贷款删除
+/*需要检查：是否本人操作，贷款是否发放(其实贷款记录只需要查一次就行，因为外键约束，有子必有父)
+删除顺序：客户与贷款 贷款支付 贷款*/
 use BankDB;
 delimiter $$
 DROP PROCEDURE if exists `proc_delete_loan`;
 CREATE PROCEDURE `proc_delete_loan` (
 	in var_loan_loanIDX      varchar(30),
+	in var_customID          varchar(18))
 BEGIN
 	DECLARE loan_record varchar(30) DEFAULT null;
+	DECLARE chaeck_loanStatus varchar(30) DEFAULT null;
 	DECLARE loanPay_record varchar(30) DEFAULT null;
-	DECLARE cus_and_loan_record varchar(30) DEFAULT null;
+	DECLARE check_customID varchar(30) DEFAULT null;
+	--DECLARE check_remain
 
-	select loanIDX into loan_record from loan where loanIDX = var_loan_loanIDX
+	select loanIDX, loanStatus into loan_record, chaeck_loanStatus from loan where loanIDX = var_loan_loanIDX
 	select loan_loanIDX into loanPay_record from loanPay where loan_loanIDX = var_loan_loanIDX
-	select loan_loanIDX into cus_and_loan_record from cus_and_loan where loan_loanIDX = var_loan_loanIDX
+	select cust_customID into check_customID from cus_and_loan where loan_loanIDX = var_loan_loanIDX
 
 	if loan_record is null then
 	 	SIGNAL SQLSTATE '45000'
@@ -93,9 +98,17 @@ BEGIN
 	 	SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: no this record in table loanPay.', MYSQL_ERRNO = 1001; -- not sure
 	end if;
-	if cus_and_loan_record is null then
+	if check_customID is null then
 	 	SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: no this record in table cus_and_loan.', MYSQL_ERRNO = 1001; -- not sure
+	end if;
+	if check_customID != var_customID then
+	 	SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Error: this is not your loan.', MYSQL_ERRNO = 1001; -- not sure
+	end if;
+	if chaeck_loanStatus = 1 or chaeck_loanStatus = 2 then
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = 'Error: the loan has not been paid.', MYSQL_ERRNO = 1001; -- not sure
 	end if;
 
 	delete from cus_and_loan where loan_loanIDX = var_loan_loanIDX
