@@ -1,5 +1,5 @@
 use BankDB;
--------------支票账户新增-------------------------------------------------------------------------------------------
+-- ----------支票账户新增-------------------------------------------------------------------------------------------
 /*
 1，判断客户身份证和员工ID都在，
 2，账户所在银行名字其实就是员工所在银行(非空)，
@@ -20,8 +20,8 @@ BEGIN
     DECLARE staff_bran_branchName varchar(20) DEFAULT null;
     DECLARE customID_record varchar(18) DEFAULT null;
 
-    select bran_branchName into staff_bran_branchName from staff where staffID = var_staffID
-    select customID into customID_record from customer where customID = var_customID
+    select bran_branchName into staff_bran_branchName from staff where staffID = var_staffID;
+    select customID into customID_record from customer where customID = var_customID;
     if staff_bran_branchName is null then
         SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: no this people in table staff.', MYSQL_ERRNO = 1001; -- not sure
@@ -31,7 +31,7 @@ BEGIN
 		SET MESSAGE_TEXT = 'Error: you have not registered in our branch.', MYSQL_ERRNO = 1001; -- not sure
     end if;
     insert into cusAccount (accountIDX,bran_branchName,staf_staffID,remain,openTime,accountType)
-    values (var_accountIDX,staff_bran_branchName,var_staffID,var_remain,sysdate(),"chequeAccount");
+    values (var_accountIDX,staff_bran_branchName,var_staffID,var_remain,sysdate(),"cheque");
     insert into chequeAccount (cusA_accountIDX,neg_limit)
     values (var_accountIDX,2000.00);
     insert into cus_and_cheAccount (cust_customID,cheq_cusA_accountIDX)
@@ -59,10 +59,10 @@ BEGIN
     DECLARE acc_nowtime datetime DEFAULT null;
     DECLARE account_duration int DEFAULT null;
     
-    select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX
-    select remain, openTime into account_remain, acc_opentime from cusAccount where accountIDX = var_accountIDX
+    select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX;
+    select remain, openTime into account_remain, acc_opentime from cusAccount where accountIDX = var_accountIDX;
     select cusA_accountIDX, neg_limit into cheAccount_record, check_neg_limit 
-     from chequeAccount where cusA_accountIDX = var_customID
+     from chequeAccount where cusA_accountIDX = var_accountIDX;
 
     if cheAccount_record is null then
 	 	SIGNAL SQLSTATE '45000'
@@ -85,8 +85,8 @@ BEGIN
 		SET MESSAGE_TEXT = 'Error: Beyond the limit.', MYSQL_ERRNO = 1001; -- not sure
     end if
 
-    update cusAccount set remain=account_remain+var_alter_money, visitTime=acc_nowtime where accountIDX = var_accountIDX
-    update chequeAccount set neg_limit=check_neg_limit where cusA_accountIDX = var_accountIDX
+    update cusAccount set remain=account_remain+var_alter_money, visitTime=acc_nowtime where accountIDX = var_accountIDX;
+    update chequeAccount set neg_limit=check_neg_limit where cusA_accountIDX = var_accountIDX;
 
 END $$
 
@@ -105,9 +105,9 @@ BEGIN
 	DECLARE cheAccount_record varchar(30) DEFAULT null;
     DECLARE check_identity varchar(18) DEFAULT null;
 
-	select accountIDX,remain into cusAccount_record, account_remain from cusAccount where accountIDX = var_accountIDX
-	select cusA_accountIDX into cheAccount_record from chequeAccount where cusA_accountIDX = var_accountIDX
-	select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX
+	select accountIDX,remain into cusAccount_record, account_remain from cusAccount where accountIDX = var_accountIDX;
+	select cusA_accountIDX into cheAccount_record from chequeAccount where cusA_accountIDX = var_accountIDX;
+	select cust_customID into check_identity from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX;
 
 	if cusAccount_record is null then
 	 	SIGNAL SQLSTATE '45000'
@@ -134,8 +134,8 @@ BEGIN
 		SET MESSAGE_TEXT = 'Warning: you have some money remain in this chequeAccount.', MYSQL_ERRNO = 1001; -- not sure
     end if;
 	
-	delete from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX
-	delete from chequeAccount where cusA_accountIDX = var_accountIDX
-	delete from cusAccount where accountIDX = var_accountIDX
+	delete from cus_and_cheAccount where cheq_cusA_accountIDX = var_accountIDX;
+	delete from chequeAccount where cusA_accountIDX = var_accountIDX;
+	delete from cusAccount where accountIDX = var_accountIDX;
 
 END $$
