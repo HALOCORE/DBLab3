@@ -72,10 +72,6 @@ BEGIN
 	end if;
     if check_identity is null then
 	 	SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = 'Error: you have not registered in our branch.', MYSQL_ERRNO = 1001; -- not sure
-	end if;
-    if check_identity != var_customID then
-	 	SIGNAL SQLSTATE '45000'
 		SET MESSAGE_TEXT = 'Error: this is not your depositAccount.', MYSQL_ERRNO = 1001; -- not sure
 	end if;
     if account_remain+var_alter_money < 0 then
