@@ -78,7 +78,11 @@ function Ajax(type, url, data, success, failed){
         if(data){
             xhr.open('GET', url + '?' + data, true);
         } else {
+<<<<<<< HEAD
             xhr.open('GET', url , true);
+=======
+            xhr.open('GET', url, true);
+>>>>>>> 120c43e1fc7cca549a13d1b86e4a31c053c39467
         }
         xhr.send();
  

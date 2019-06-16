@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from .api_handle import api_customer, api_staff, api_account, api_branch, api_loan, api__AUTH
+from .api_handle import api_customer, api_staff, api_account, api_branch, api_loan, api_statistic, api__AUTH
 
 urlpatterns = [
     path('auth/login', api__AUTH.login),
@@ -35,4 +35,10 @@ urlpatterns = [
     path('APILoan/', api_loan.handle_main),
     path('APILoan/<loan_id>', api_loan.handle_id),
     path('APILoan/<loan_id>/Pay', api_loan.handle_pay),
+
+    # Statistic
+    path('APIStatistic/Deposit/', api_statistic.handle_deposit),
+    path('APIStatistic/Cheque/', api_statistic.handle_cheque),
+    path('APIStatistic/Loan/', api_statistic.handle_loan),
+    
 ]

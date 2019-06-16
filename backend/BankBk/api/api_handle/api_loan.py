@@ -12,12 +12,11 @@ def handle_main(request):
         if loan_idx is None:
             return db_connect.httpRespError()
         else:
-            loan_data = request.POST
-            loan_data['loanState'] = 1
+            loan_data = {key:request.POST[key] for key in request.POST}
+            loan_data['loanStatus'] = 1
             loan_data['loanPaid'] = 0
             api__REQUEST.insert_one('loan', loan_data)
             return db_connect.httpRespOK("OK")
-        pass
     else:
         return db_connect.httpRespError()
 
