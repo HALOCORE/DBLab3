@@ -88,9 +88,23 @@ if test_ctl['Staff']:
 
 
 if test_ctl['Account']:
-    pass
-    # # Account
-    # printresp(requests.get("http://localhost:8000/api/v1/APIAccount/"))
+    # Account
+    # 储蓄基本
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit"))
+    # 储蓄查询
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit?currency=RMB"))
+    # 单个储蓄账户
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Deposit/00403386247866740608"))
+    # 储蓄创建 TODO
+    printresp(requests.post("http://localhost:8000/api/v1/APIAccount/Deposit", ))
+    # 储蓄删除
+    # 支票基本
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque"))
+    # 支票查询
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque?remainlt=20000&neg_limitgt=3000"))
+    # 单个支票账户
+    printresp(requests.get("http://localhost:8000/api/v1/APIAccount/Cheque/00278883948040893941"))
+    # 支票创建 TODO
 
 
 if test_ctl['Branch']:
