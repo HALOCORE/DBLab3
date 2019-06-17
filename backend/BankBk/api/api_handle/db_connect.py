@@ -19,23 +19,41 @@ AUTH_USERS = {
     "hqy":"666",
 }
 
-auth_pwd_tokens = {
-    "efotj34f83w":["leit", '20190614'],
-    "rf9348fjq1e":["union", '20190614'],
-    "zc0q9e1dq11":["hqy", '20190614'],
+auth_token_user = {
+    # "efotj34f83w":("leit", ...日期时间...),
+    # "rf9348fjq1e":("union", ..),
+    # "zc0q9e1dq11":("hqy", ..),
 }
+
+auth_user_token = {
+    'leit':[],  # ['efotj34f83w'],
+    'union':[], # ['rf9348fjq1e'],
+    'hqy':[]    # ['zc0q9e1dq11']
+}
+
+import random
+from datetime import date, datetime
+def gen_token():
+    token = "".join([chr(random.randint(ord('a'), ord('z'))) for _ in range(11)])
+    return token
+
 
 def check_user_pwd(user:str, pwd:str):
     """检查某个用户是否有效"""
     if user in AUTH_USERS:
         if pwd == AUTH_USERS[user]:
-            return True
-    return False
+            new_token = gen_token()
+            auth_user_token[user].append(new_token)
+            auth_token_user[new_token] = (user, datetime.now())
+            return new_token
+    return None
+
 
 def check_token(token:str):
     """检查某个token"""
-    if token in auth_pwd_tokens:
-        return auth_pwd_tokens[token]
+    if token in auth_token_user:
+        if token in auth_token_user:
+            return auth_token_user[token][0]
     return None
 
 
@@ -46,9 +64,7 @@ MSG_ERROR = {"status": "error"}
 
 from django.http import HttpResponse
 import json
-from datetime import date, datetime
 from decimal import Decimal
-
 
 class CJsonEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -61,6 +77,12 @@ class CJsonEncoder(json.JSONEncoder):
         else:
             return json.JSONEncoder.default(self, obj)
 
+
+def httpSetToken(token:str):
+    resp_dict = {'status': 'OK', 'describe': 'set token in cookie.'}
+    resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=200, content_type=JSON_CONTENT_TYPE)
+    resp['Set-Cookie'] = 'token='+token + '; Max-Age=600; Path=/;'
+    return resp
 
 def httpRespForbidden(msg=""):
     resp_dict = MSG_FORBIDDEN.copy()
@@ -102,17 +124,19 @@ def auto_auth(func):
     def wrapper(*args, **kwargs):
         msg = MSG_FORBIDDEN
         cookie = args[0].COOKIES
-        auth_result = None
-        if 'pwdtoken' in cookie:
-            auth_result = check_token(cookie['pwdtoken'])
+        auto_auth_user = None
+        if 'token' in cookie:
+            auto_auth_token = cookie['token']
+            auto_auth_user = check_token(auto_auth_token)
         try:
-            if auth_result is not None:
+            if auto_auth_user is not None:
                 # 调用处理函数
                 return func(*args, **kwargs)
             else:
                 # 拒绝访问
                 print("# debug mode. 权限检查关闭.")
-                return func(*args, **kwargs)
+                return httpRespForbidden('未通过安全验证.')
+                # return func(*args, **kwargs)
         except MySQLError as err:
             if str(err).find('1064') > 0:
                 raise err
