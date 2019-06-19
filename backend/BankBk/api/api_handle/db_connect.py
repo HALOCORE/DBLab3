@@ -89,6 +89,8 @@ def httpRespForbidden(msg=""):
     resp_dict['describe'] = msg
     resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
     resp['Access-Control-Allow-Origin'] = '*'
+    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT'
+    resp['Access-Control-Allow-Headers'] = 'Content-Type'
     return resp
 
 def httpRespError(msg=""):
@@ -96,6 +98,8 @@ def httpRespError(msg=""):
     resp_dict['describe'] = msg
     resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
     resp['Access-Control-Allow-Origin'] = '*'
+    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT'
+    resp['Access-Control-Allow-Headers'] = 'Content-Type'
     return resp
 
 def httpRespOK(status:str, metadata=None, data=None):
@@ -103,6 +107,8 @@ def httpRespOK(status:str, metadata=None, data=None):
     data_pack = {"status":status, "metadata":metadata, "data":data}
     resp = HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder, indent=2), status=200, content_type=JSON_CONTENT_TYPE)
     resp['Access-Control-Allow-Origin'] = '*'
+    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT'
+    resp['Access-Control-Allow-Headers'] = 'Content-Type'
     return resp
 # --------------------- 权限检查装饰器 ---------------------
 
