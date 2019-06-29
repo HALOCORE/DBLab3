@@ -35,10 +35,10 @@ function Ajax(type, url, data, success, failed){
         xhr.send(data);
     } else if(type == 'DELETE'){  
         if(data){
-            xhr.open('DELETE', url + data, false);
+            xhr.open('DELETE', url + data, true);
             
         } else{
-            xhr.open('DELETE', url, false);
+            xhr.open('DELETE', url, true);
         }
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send();
@@ -54,16 +54,27 @@ function Ajax(type, url, data, success, failed){
                 alert("success");
                 alert(typeof xhr.responseText)
                 success(xhr.responseText);
-            } else {
+            } 
+            else {
                 if(failed){
+                    alert("failed")
                     failed(xhr.status);
+                    failed(xhr.responseText);
                 }
                 else{
                     alert("API调用异常。\n状态：" + xhr.status);
                 }
             }
         }
+        // else if(xhr.status == 400){
+        //     alert("400")
+        //     alert(xhr.responseText);
+        // }
     }
+}
+
+function myrefresh(){
+    window.location.reload();
 }
 
 function success(response){
@@ -72,7 +83,7 @@ function success(response){
     response = JSON.parse(response);
     newJson = response["data"];
     console.log("newJson: "+ newJson)
-
+    
     $("#table").bootstrapTable({
         data: newJson,
     })
@@ -81,8 +92,6 @@ function success(response){
 function click_remove(){
     var $table = $('#table')
     var $remove = $('#remove')
-
-    
     var ids = $.map($table.bootstrapTable('getSelections'), function(row){
         return  row.branchName;
     })
@@ -91,14 +100,15 @@ function click_remove(){
     //     values: ids
     // })
     alert(ids);
-    var url="http://localhost:8000/api/v1/APIBranch/"
+    var url="http://localhost:8000/api/v1/APIBranch"
     for(var i = 0; i < ids.length; i ++){
-        alert(url+ids[i]);
-        alert(typeof ids[i])
-        Ajax('DELETE', url+ids[i], '', success, alert);
+        alert(url+"/"+ids[i]);
+        alert(typeof ids[i]) 
+        Ajax('DELETE', url+"/"+ids[i], '', alert, alert);
     }
-    // 此时会有API调用异常，状态：0
-    alert("click success!")
+    // $('#table').bootstrapTable('destroy');
+    // Ajax('GET', url, '', success, alert);
+    myrefresh();
 }
 
 function click_add(){
@@ -112,8 +122,14 @@ function click_add(){
     var obj = JSON.parse(data);
     alert("obj: " + obj);
     console.log(obj);
+    var url="http://localhost:8000/api/v1/APIBranch"
     Ajax('POST', url, obj, alert, alert);
+
+    // $('#table').bootstrapTable('destroy');
+    // Ajax('GET', url, '', success, alert);
     alert("add successfully!")
+
+    myrefresh();
 }
 
 function click_change(){
@@ -136,6 +152,19 @@ function click_change(){
     }
 }
 
+
+
+function searchByBranchName(){
+    var url="http://localhost:8000/api/v1/APIBranch"
+    $('#table').bootstrapTable('destroy');
+    var searchContent = document.getElementById("searchContent");
+    if(searchContent.value){
+        Ajax('GET', url+"/"+searchContent.value, '', success, alert);
+    }
+    else{
+        Ajax('GET', url, '', success, alert);
+    }
+}
 
 
 
