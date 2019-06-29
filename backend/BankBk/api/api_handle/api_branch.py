@@ -20,7 +20,7 @@ def handle_main(request):
             return db_connect.httpRespOK("OK")
     else:
         # 无法解析的请求类型
-        return db_connect.httpRespError()
+        return db_connect.httpRespError("不支持的请求method: " + request.method)
 
 
 
