@@ -167,15 +167,38 @@ def insert_one(table_name,data,debug=False):
     modify_table(sql,parameter)
     return
 
+"""统计的SQL执行，返回字典"""
+def excu_statistics(sql):
+    cursor = db_connect.connection.cursor()
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    colmon = cursor.description#列的元组
+    title = [colmon[i][0] for i in range(len(colmon))]
+    cursor.close()
+    return title, result
 
+"""求和"""
+def calc_sum(column,table_name,sum_where):
+    sql = "SELECT bran_branchName,SUM("+column+") AS sum_"+column+" FROM "\
+    +table_name+sum_where+" GROUP BY bran_branchName"
+    metadata, data = excu_statistics(sql)
+    return metadata, data
 
-# if __name__ == '__main__':
-#     #插入语句测试
-#     table = "branch"
-#     data = {"city":"","branchName":"BBB"}
-#     insert_one(table,data,True)
-#     #查询语句测试
-#     select_columns = ["city","name"]
-#     from_table = "branch"
-#     where_dict = {'x': 1, 'y': 2, 'z': 3}
-#     query_specify(select_columns,from_table,where_dict)
+def calc_currency(data_dict):
+    sql = ""
+    if len(data_dict) == 0:
+        sql = "SELECT a.bran_branchName, b.currency, SUM(a.remain) AS sum_remain "\
+    +"FROM cusAccount a,depositAccount b WHERE a.accountType='deposit'"+\
+    " AND a.accountIDX=b.cusA_accountIDX GROUP BY a.bran_branchName, b.currency"
+    else:
+        sql = "SELECT a.bran_branchName, b.currency, SUM(a.remain) AS sum_remain "\
+    +"FROM cusAccount a,depositAccount b WHERE a.accountType='deposit' AND "+gen_where(data_dict)+\
+    " AND a.accountIDX=b.cusA_accountIDX GROUP BY a.bran_branchName, b.currency"
+    metadata, data = excu_statistics(sql)
+    return metadata, data
+
+def calc_count(table_name,count_where):
+    sql = "SELECT bran_branchName,COUNT(*) AS count_"+table_name+" FROM "\
+    +table_name+count_where+" GROUP BY bran_branchName"
+    metadata, data = excu_statistics(sql)
+    return metadata, data

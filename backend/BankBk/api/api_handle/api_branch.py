@@ -3,14 +3,15 @@ from django.http import QueryDict
 from . import db_connect
 from . import api__REQUEST
 
+
 @db_connect.auto_auth
 def handle_main(request):
-    if request.method == 'GET':#查询支行
+    if request.method == 'GET': #查询支行
         metadata, all_branch = api__REQUEST.query_fuzz(
             [], 'branch', request.GET)
         return db_connect.httpRespOK("OK",metadata,all_branch)
     
-    elif request.method == 'POST':#新建一个支行
+    elif request.method == 'POST': #新建一个支行
         branchName = request.POST.get('branchName')
         if branchName is None:
             return db_connect.httpRespError()
