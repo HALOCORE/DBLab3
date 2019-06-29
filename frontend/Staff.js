@@ -1,4 +1,4 @@
-var url = "http://localhost:8000/api/v1/APIStaff/";
+var url = "http://localhost:8000/api/v1/APIStaff";
 
 function Ajax(type, url, data, success, failed){
     var xhr = null;
@@ -106,3 +106,6 @@ function click_add(){
                 resizable=no, location=no, status=no");   
 }
 
+function search(){
+    
+}

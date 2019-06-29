@@ -1,4 +1,4 @@
-var url = "http://localhost:8000/api/v1/APILoan/";
+var url = "http://localhost:8000/api/v1/APILoan";
 
 
 

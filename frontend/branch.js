@@ -1,8 +1,7 @@
-var url = "http://localhost:8000/api/v1/APIBranch/";
+var url = "http://localhost:8000/api/v1/APIBranch";
 var response;
 
 
-// url 后统一以'/'结尾
 function Ajax(type, url, data, success, failed){
     var xhr = null;
     if(window.XMLHttpRequest){
@@ -127,11 +126,13 @@ function click_change(){
     for(var i = 0; i < ids.length; i ++){
         alert(url+ids[i]);
         var city = prompt("输入修改后的city");
-        var data = '{' + "\"field\":\"city\", " + "\"field_value\":"+"\""+city+"\"" + '}'  
+        var data = '{' + "\"field\"" + ":" + "[" + "\'city\'" + "]" + ", " + 
+                    "\"field_value\"" + ":" + "[" + "\'" + city + "\'" + "]" +
+                    '}'
         alert(data);
-        var obj = JSON.parse(data);
-        console.log(obj);
-        Ajax("PUT", url+ids[i], obj, alert, alert);
+        // var obj = JSON.parse(data);
+        // console.log(obj);
+        Ajax("PUT", url+ids[i], data, alert, alert);
     }
 }
 

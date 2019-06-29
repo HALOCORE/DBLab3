@@ -84,31 +84,30 @@ def httpSetToken(token:str):
     resp['Set-Cookie'] = 'token='+token + '; Max-Age=600; Path=/;'
     return resp
 
+def mod_head(resp:HttpResponse):
+    resp['Access-Control-Allow-Origin'] = '*'
+    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT,OPTIONS'
+    resp['Access-Control-Allow-Headers'] = 'Content-Type'
+
 def httpRespForbidden(msg=""):
     resp_dict = MSG_FORBIDDEN.copy()
     resp_dict['describe'] = msg
     resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=403, content_type=JSON_CONTENT_TYPE)
-    resp['Access-Control-Allow-Origin'] = '*'
-    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT'
-    resp['Access-Control-Allow-Headers'] = 'Content-Type'
+    mod_head(resp)
     return resp
 
 def httpRespError(msg=""):
     resp_dict = MSG_ERROR.copy()
     resp_dict['describe'] = msg
     resp = HttpResponse(json.dumps(resp_dict, ensure_ascii=False, cls=CJsonEncoder), status=400, content_type=JSON_CONTENT_TYPE)
-    resp['Access-Control-Allow-Origin'] = '*'
-    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT'
-    resp['Access-Control-Allow-Headers'] = 'Content-Type'
+    mod_head(resp)
     return resp
 
 def httpRespOK(status:str, metadata=None, data=None):
     """状态，元数据字典，数据字典"""
     data_pack = {"status":status, "metadata":metadata, "data":data}
     resp = HttpResponse(json.dumps(data_pack, ensure_ascii=False, cls=CJsonEncoder, indent=2), status=200, content_type=JSON_CONTENT_TYPE)
-    resp['Access-Control-Allow-Origin'] = '*'
-    resp['Access-Control-Allow-Methods'] = 'POST,GET,DELETE,PUT'
-    resp['Access-Control-Allow-Headers'] = 'Content-Type'
+    mod_head(resp)
     return resp
 # --------------------- 权限检查装饰器 ---------------------
 
@@ -141,8 +140,8 @@ def auto_auth(func):
             else:
                 # 拒绝访问
                 print("# debug mode. 权限检查关闭.")
-                return httpRespForbidden('未通过安全验证.')
-                # return func(*args, **kwargs)
+                # return httpRespForbidden('未通过安全验证.')
+                return func(*args, **kwargs)
         except MySQLError as err:
             if str(err).find('1064') > 0:
                 raise err
