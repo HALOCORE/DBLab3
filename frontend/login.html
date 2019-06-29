@@ -103,7 +103,7 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
-							<input id="userpwd" type="text" name="username" class="form-control input_user" value="" placeholder="管理员用户名">
+							<input id="inputuser" type="text" name="username" class="form-control input_user" value="" placeholder="管理员用户名">
 						</div>
 						<div class="input-group mb-2">
 							<div class="input-group-append">
@@ -129,8 +129,16 @@
     <script>
         var loginbutton = document.getElementById("loginbutton");
         loginbutton.onclick = function(e){
-            var input
+            var inputuser = document.getElementById("inputuser");
             var inputpwd = document.getElementById("inputpwd");
+            $.ajax({url:'http://localhost:8000/api/v1/auth/login', data:{"username":inputuser.value, "password":inputpwd.value}, 
+                success:function(e){
+                    console.log("登录成功.");
+                    window.location.replace("http://localhost:8000/static/submain.html")
+                }, 
+                error:function(e){
+                    alert("用户名或密码不正确!");
+                }})
         }
     </script>
 </body>
