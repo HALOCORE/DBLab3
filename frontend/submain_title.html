@@ -1,13 +1,42 @@
 <html>
     <head>
-
+        <style type="text/css">
+            .head_right .head{display: inline-block; width:315px; height:95px;}
+            .head_right{ float:right; width:315px; height:95px;}
+        </style>
+        <link rel="stylesheet" href="layui.css">
     </head>
-    <body>
-         <div style="margin:20px;">
+    <body style="background:firebrick;">
+        <div width="100%;">
+         <!-- <div class="head" style="margin:20px; float:left; ">
                 <h1>银行管理系统</h1>
                 <h4 id="dateshow"></h4>
-         </div>
-        
+         </div> -->
+         <div class="container" style="background:transparent">
+                
+                <div  style="float:left; margin-left:50px; margin-top: 20px; background: transparent; color:white">
+                    <h1>银行管理系统</h1>
+                    <h4 id="dateshow"></h4>
+                </div>
+                
+                <ul class="layui-nav right" lay-filter="" style="float: right; background: transparent; margin:20px;">
+                    <li class="layui-nav-item">
+                        <a href="javascript:;">
+                            <div class="lafitewu_circle">
+                                <i class="iconfont"></i>
+                            </div>
+                            欢迎您，xx管理员
+                        </a>
+                        
+                    </li>
+                    <li class="layui-nav-item lafitewu_exit to-index">
+                        <a href="./login.html"><i class="iconfont"></i>退出</a>
+                    </li>
+                <span class="layui-nav-bar" style="left: 20px; top: 40.5px; width: 0px; opacity: 0;"></span></ul>
+            </div>
+
+
+
         <script>
                 function getNowFormatDate() {
                     var date = new Date();
