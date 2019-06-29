@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="Client.js"></script>
+</head>
+
+<body>
+    <script>
+    var url = "http://localhost:8000/api/v1/APICustomer/";
+    
+    function add_Client(){
+        var customID = document.getElementById("customID").value;
+        var customPhone = document.getElementById("customPhone").value;
+        var customAddress = document.getElementById("customAddress").value;
+        var customName = document.getElementById("customName").value;
+        var relName = document.getElementById("relName").value;
+        var relPhone = document.getElementById("relPhone").value;
+        var relEmail = document.getElementById("relEmail").value;
+        var relRelation = document.getElementById("relRelation").value;
+
+        var data = "{" + 
+                    "\"customID\":" + "\"" + customID + "\""+ ", " + 
+                    "\"customPhone\":" +"\""+ customPhone + "\""+ ", " + 
+                    "\"customAddress\":" +"\""+ customAddress +"\""+ ", " + 
+                    "\"customName\":" +"\""+ customName +"\""+ ", " + 
+                    "\"relName\":" + "\""+relName +"\""+ ", " + 
+                    "\"relPhone\":" + "\""+relPhone + "\""+", " + 
+                    "\"relEmail\":" + "\""+relEmail +"\""+ ", " + 
+                    "\"relRelation\":" + "\""+relRelation + "\""
+                    +"}";
+        
+        alert(data);
+        var obj = JSON.parse(data);
+        
+        console.log(obj);
+        Ajax('POST', url, obj, success, alert);
+        alert("add successfully");
+    }
+    
+
+    </script>
+
+<table>
+    <th>
+        不知道写什么好
+    </th>
+    <tr>
+        <td>customID：<input type="text" id="customID" value="customID" class="input=medium search-query"></td>        
+    </tr>
+    <tr>
+        <td>customPhone：<input type="text" id="customPhone" value="customPhone"></td>
+    </tr>
+    <tr>
+        <td>customAddress：<input type="text" id="customAddress" value="customAddress"></td>
+    </tr>
+    <tr>
+        <td>customName：<input type="text" id="customName" value="customName"></td>
+    </tr>
+    <tr>
+        <td>relName：<input type="text" id="relName" value="relName"></td>
+    </tr>
+    <tr>
+        <td>relPhone：<input type="text" id="relPhone" value="relPhone"></td>
+    </tr>
+    <tr>
+        <td>relEmail：<input type="text" id="relEmail" value="relEmail"></td>
+    </tr>
+    <tr>
+        <td>relRelation：<input type="text" id="relRelation" value="relRelation"></td>
+    </tr>
+</table>
+
+<button id="submit" class="btn btn-large btn-primary" onclick=add_Client()>Submit</button>
+
+</body>

@@ -1,5 +1,5 @@
-var url = "http://localhost:8000/api/v1/APIBranch/";
-var response;
+var url = "http://localhost:8000/api/v1/APICustomer/";
+
 
 
 // url 后统一以'/'结尾
@@ -85,60 +85,28 @@ function click_remove(){
 
     
     var ids = $.map($table.bootstrapTable('getSelections'), function(row){
-        return  row.branchName;
+        return  row.customID;
     })
-    // $table.bootstrapTable('remove', {
-    //     field: 'branchName',
-    //     values: ids
-    // })
+    $table.bootstrapTable('remove', {
+        field: 'customID',
+        values: ids
+    })
     alert(ids);
-    var url="http://localhost:8000/api/v1/APIBranch/"
-    for(var i = 0; i < ids.length; i ++){
-        alert(url+ids[i]);
-        alert(typeof ids[i])
-        Ajax('DELETE', url+ids[i], '', success, alert);
-    }
-    // 此时会有API调用异常，状态：0
-    alert("click success!")
+    // var url="http://localhost:8000/api/v1/APICustomer/"
+    // for(var i = 0; i < ids.length; i ++){
+    //     alert(url+ids[i]);
+    //     alert(typeof ids[i])
+    //     Ajax('DELETE', url+ids[i], '', success, alert);
+    // }
+    // // 此时会有API调用异常，状态：0
+    // alert("click success!")
 }
 
 function click_add(){
-    var city = prompt("输入city", "Hefei");
-    alert(city);
-    var branchName = prompt("输入支行名", "AHB"); 
-    alert(branchName)
-    var data = '{ '+"\"city\":" + "\""+city + "\""+ ", " + "\"branchName\":" + "\"" + branchName + "\"" + ' }';
-    alert(data);
-    alert(typeof data);
-    var obj = JSON.parse(data);
-    alert("obj: " + obj);
-    console.log(obj);
-    Ajax('POST', url, obj, alert, alert);
-    alert("add successfully!")
+    window.open("add_Client.html", "newwindow", 
+                "height=400, width=400, top=0, left=0, \
+                toolbar=no, menubar=no, scrollbars=no, \
+                resizable=no, location=no, status=no");   
 }
 
-function click_change(){
-    var $table = $('#table')
-    var ids = $.map($table.bootstrapTable('getSelections'), function(row){
-        return  row.branchName;
-    })
-    alert(ids);
-    var url="http://localhost:8000/api/v1/APIBranch/"
-    for(var i = 0; i < ids.length; i ++){
-        alert(url+ids[i]);
-        var city = prompt("输入修改后的city");
-        var data = '{' + "\"field\":\"city\", " + "\"field_value\":"+"\""+city+"\"" + '}'  
-        alert(data);
-        var obj = JSON.parse(data);
-        console.log(obj);
-        Ajax("PUT", url+ids[i], obj, alert, alert);
-    }
-}
-
-
-
-
-
-
-
-
+// TODO：change

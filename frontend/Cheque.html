@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>客户管理</title>
+  <title>支票账户管理</title>
   <meta http-equiv="Access-Control-Allow-Origin" content="*" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,22 +12,18 @@
   <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
   <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/locale/bootstrap-table-zh-CN.min.js"></script>
-  <script src="Client.js"></script>
+  <script src="Account.js"></script>
 </head>
+
 
 <body>
 <script>
-    var url = "http://localhost:8000/api/v1/APICustomer/";
-    var response;
-    Ajax('GET', url, '' , success, alert);        
+var cheque_url = "http://localhost:8000/api/v1/APIAccount/Cheque"   
+Ajax('GET', cheque_url, '' , success, alert);  
 </script>
-<div id="toolbar">
-    <button id="remove" class="btn  btn-secondary" onclick=click_remove()>remove</button>
-    <!-- <input id="city" type="text" value="city">
-    <input id="branchName" type="text" value="branch name"> -->
-    <button id="add" class="btn btn-secondary" onclick=click_add()>add</button>   
-    <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
-</div>
+
+
+
 <table
 id="table"          
 data-height="1000"
@@ -41,17 +37,18 @@ data-search-on-enter-key="true"
 data-show-search-button="true"
 >
 <thead>
-<tr>
-<th data-field="state" data-checkbox="true"></th>
-<th data-field="customID">customID</th>
-<th data-field="customPhone">customPhone</th>
-<th data-field="customAddress">customAddress</th>
-<th data-field="customName">customName</th>
-<th data-field="relName">relName</th>
-<th data-field="relPhone">relPhone</th>
-<th data-field="relEmail">relEmail</th>
-<th data-field="relRelation">relRelation</th>
-</tr>
+    <tr>
+    <th data-field="state" data-checkbox="true"></th>
+    <th data-field="accountIDX">accountIDX</th>
+    <th data-field="bran_branchName">bran_branchName</th>
+    <th data-field="staf_staffID">staf_staffID</th>
+    <th data-field="remain">remain</th>
+    <th data-field="visitTime">visitTime</th>
+    <th data-field="openTime">openTime</th>
+    <th data-field="accountType">accountType</th>
+    <th data-field="cusA_accountIDX">cusA_accountIDX</th>
+    <th data-field="neg_limit">neg_limit</th>
+    </tr>
 </thead>
 </table>
 </body>

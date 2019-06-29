@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>员工管理</title>
+  <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+  <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+  <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/locale/bootstrap-table-zh-CN.min.js"></script>
+  <script src="Staff.js"></script>
+</head>
+
+<body>
+<script>
+    var url = "http://localhost:8000/api/v1/APIStaff/";
+    var response;
+    Ajax('GET', url, '' , success, alert);     
+</script>
+
+    <div id="toolbar">
+        <button id="remove" class="btn  btn-secondary" onclick=click_remove()>remove</button>
+        <button id="add" class="btn btn-secondary" onclick=click_add()>add</button>   
+        <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
+    </div>
+
+    <table
+    id="table"          
+    data-height="1000"
+    data-toolbar="#toobar"
+    data-search="true"
+    data-pagination="true"
+    data-page-list="[10, 25, 50, 100, ALL]" 
+    data-click-to-select="true"
+    data-checkbox-header="true"
+    data-search-on-enter-key="true"
+    data-show-search-button="true"
+    >
+        <thead>
+            <tr>
+            <th data-field="state" data-checkbox="true"></th>
+            <th data-field="staffID">staffID</th>
+            <th data-field="bran_branchName">bran_branchName</th>
+            <th data-field="startWorkDate">startWorkDate</th>
+            <th data-field="staffName">staffName</th>
+            <th data-field="staffPhone">staffPhone</th>
+            <th data-field="staffAddress">staffAddress</th>
+            <th data-field="staffPassword">staffPassword</th>
+            </tr>
+        </thead>
+    </table>
+</body>

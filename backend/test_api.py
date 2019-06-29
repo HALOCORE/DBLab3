@@ -54,7 +54,7 @@ if test_ctl['Customer']:
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200601286584/CusAccount"))
     # 测试一个Customer的Loan
     printresp(requests.get("http://localhost:8000/api/v1/APICustomer/221403200601286584/Loan"))
-
+';'
 
 
 # # Staff

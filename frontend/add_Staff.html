@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="Staff.js"></script>
+</head>
+
+<body>
+<script>
+var url = "http://localhost:8000/api/v1/APIStaff/";
+
+function add_Staff(){
+    var staffID = document.getElementById("staffID").value;
+    var bran_branchName = document.getElementById("bran_branchName").value;
+    var startWorkDate = document.getElementById("startWorkDate").value;
+    var staffName = document.getElementById("staffName").value;
+    var staffPhone = document.getElementById("staffPhone").value;
+    var staffAddress = document.getElementById("staffAddress").value;
+    var staffPassword = document.getElementById("staffPassword").value;
+
+    var data = "{" + 
+                "\"staffID\":" + "\"" + staffID + "\""+ ", " + 
+                "\"bran_branchName\":" +"\""+ bran_branchName + "\""+ ", " + 
+                "\"startWorkDate\":" +"\""+ startWorkDate +"\""+ ", " + 
+                "\"staffName\":" +"\""+ staffName +"\""+ ", " + 
+                "\"staffPhone\":" + "\""+staffPhone +"\""+ ", " + 
+                "\"staffAddress\":" + "\""+staffAddress + "\""+", " + 
+                "\"staffPassword\":" + "\""+staffPassword +"\""
+                +"}";
+    alert(data);
+    var obj = JSON.parse(data);
+    console.log(obj);
+    Ajax('POST', url, obj, alert, alert);
+    alert("add successfully!");
+}
+</script>
+
+<table>
+    <th>
+        不知道写什么坏
+    </th>
+    <tr>
+        <td>staffID: <input type="text" id="staffID" value="staffID" ></td>
+    </tr>
+    <tr>
+        <td>bran_branchName： <input type="text" id="bran_branchName" value="bran_branchName" ></td>
+    </tr>
+    <tr>
+        <td>startWorkDate: <input type="text" id="startWorkDate" value="startWorkDate" ></td>
+    </tr>
+    <tr>
+        <td>staffName: <input type="text" id="staffName" value="staffName" ></td>
+    </tr>
+    <tr>
+        <td>staffPhone: <input type="text" id="staffPhone" value="staffPhone" ></td>
+    </tr>
+    <tr>
+        <td>staffAddress: <input type="text" id="staffAddress" value="staffAddress" ></td>
+    </tr>
+    <tr>
+        <td>staffPassword: <input type="text" id="staffPassword" value="staffPassword" ></td>
+    </tr>
+
+</table>
+
+<button id="submit" class="btn btn-large btn-primary" onclick=add_Staff()>Submit</button>
+
+</body>
+<!-- 123532525623466
+    AHB
+    2018-02-28
+    二胖
+    13858239234
+    合肥
+    ""
+-->

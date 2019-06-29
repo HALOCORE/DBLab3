@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>支行管理</title>
+  <title>贷款账户管理</title>
   <meta http-equiv="Access-Control-Allow-Origin" content="*" />
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,22 +12,17 @@
   <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.css">
   <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/bootstrap-table.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.14.2/dist/locale/bootstrap-table-zh-CN.min.js"></script>
-  <script src="loan.js"></script>
+  <script src="Account.js"></script>
 </head>
 
 <body>
     <script>
-        var url = "http://localhost:8000/api/v1/APILoan/";
-        var response;
-        Ajax('GET', url, '' , success, alert);      
+        
+        var deposit_url = "http://localhost:8000/api/v1/APIAccount/Deposit"
+
+        Ajax('GET', deposit_url, '' , success, alert); 
     </script>
 
-    <div id="toolbar">
-    <button id="remove" class="btn  btn-secondary" onclick=click_remove()>remove</button>
-    <button id="add" class="btn btn-secondary" onclick=click_add()>add</button>   
-    <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
-    </div>
-        
     <table
     id="table"          
     data-height="1000"
@@ -41,16 +36,20 @@
     data-show-search-button="true"
     >
     <thead>
-        <tr>
+      <tr>
         <th data-field="state" data-checkbox="true"></th>
-        <th data-field="loanIDX">loanIDX</th>
-        <th data-field="staf_staffID">staf_staffID</th>
+        <th data-field="accountIDX">accountIDX</th>
         <th data-field="bran_branchName">bran_branchName</th>
-        <th data-field="loanDate">loanDate</th>
-        <th data-field="loanAmount">loanAmount</th>
-        <th data-field="loanStatus">loanStatus</th>
-        <th data-field="loanPaid">loanPaid</th>
-        </tr>
+        <th data-field="staf_staffID">staf_staffID</th>
+        <th data-field="remain">remain</th>
+        <th data-field="visitTime">visitTime</th>
+        <th data-field="openTime">openTime</th>
+        <th data-field="accountType">accountType</th>
+        <th data-field="cusA_accountIDX">cusA_accountIDX</th>
+        <th data-field="currency">currency</th>
+        <th data-field="interest">interest</th>
+      </tr>
     </thead>
-  </table>
+    </table>
+
 </body>

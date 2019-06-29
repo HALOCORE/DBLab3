@@ -1,6 +1,5 @@
-var url = "http://localhost:8000/api/v1/APIBranch/";
-var response;
-
+var cheque_url = "http://localhost:8000/api/v1/APIAccount/Cheque"
+var deposit_url = "http://localhost:8000/api/v1/APIAccount/Deposit"
 
 // url 后统一以'/'结尾
 function Ajax(type, url, data, success, failed){
@@ -68,7 +67,6 @@ function Ajax(type, url, data, success, failed){
 }
 
 function success(response){
-    var $table = $('#table')
     var newJson = []
     response = JSON.parse(response);
     newJson = response["data"];
@@ -78,67 +76,3 @@ function success(response){
         data: newJson,
     })
 }
-
-function click_remove(){
-    var $table = $('#table')
-    var $remove = $('#remove')
-
-    
-    var ids = $.map($table.bootstrapTable('getSelections'), function(row){
-        return  row.branchName;
-    })
-    // $table.bootstrapTable('remove', {
-    //     field: 'branchName',
-    //     values: ids
-    // })
-    alert(ids);
-    var url="http://localhost:8000/api/v1/APIBranch/"
-    for(var i = 0; i < ids.length; i ++){
-        alert(url+ids[i]);
-        alert(typeof ids[i])
-        Ajax('DELETE', url+ids[i], '', success, alert);
-    }
-    // 此时会有API调用异常，状态：0
-    alert("click success!")
-}
-
-function click_add(){
-    var city = prompt("输入city", "Hefei");
-    alert(city);
-    var branchName = prompt("输入支行名", "AHB"); 
-    alert(branchName)
-    var data = '{ '+"\"city\":" + "\""+city + "\""+ ", " + "\"branchName\":" + "\"" + branchName + "\"" + ' }';
-    alert(data);
-    alert(typeof data);
-    var obj = JSON.parse(data);
-    alert("obj: " + obj);
-    console.log(obj);
-    Ajax('POST', url, obj, alert, alert);
-    alert("add successfully!")
-}
-
-function click_change(){
-    var $table = $('#table')
-    var ids = $.map($table.bootstrapTable('getSelections'), function(row){
-        return  row.branchName;
-    })
-    alert(ids);
-    var url="http://localhost:8000/api/v1/APIBranch/"
-    for(var i = 0; i < ids.length; i ++){
-        alert(url+ids[i]);
-        var city = prompt("输入修改后的city");
-        var data = '{' + "\"field\":\"city\", " + "\"field_value\":"+"\""+city+"\"" + '}'  
-        alert(data);
-        var obj = JSON.parse(data);
-        console.log(obj);
-        Ajax("PUT", url+ids[i], obj, alert, alert);
-    }
-}
-
-
-
-
-
-
-
-

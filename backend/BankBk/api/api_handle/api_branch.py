@@ -22,6 +22,7 @@ def handle_main(request):
         return db_connect.httpRespError()
 
 
+
 @db_connect.auto_auth
 def handle_name(request, branch_name):
     if request.method == 'GET': # 获取一个支行信息

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="loan.js"></script>
+</head>
+
+<body>
+    <script>
+    var url = "http://localhost:8000/api/v1/APILoan/";
+
+    function add_Loan(){
+        var loanIDX = document.getElementById("loanIDX").value;
+        var staf_staffID = document.getElementById("staf_staffID").value;
+        var  bran_branchName = document.getElementById("bran_branchName").value;
+        var loanDate = document.getElementById("loanDate").value;
+        var loanAmount = document.getElementById("loanAmount").value;
+        var loanStatus = document.getElementById("loanStatus").value;
+        var loanPaid = document.getElementById("loanPaid").value;
+        var data = "{" + 
+                    "\"loanIDX\":" + "\"" + loanIDX + "\""+ ", " + 
+                    "\"staf_staffID\":" +"\""+ staf_staffID + "\""+ ", " + 
+                    "\"bran_branchName\":" +"\""+ bran_branchName +"\""+ ", " + 
+                    "\"loanDate\":" +"\""+ loanDate +"\""+ ", " + 
+                    "\"loanAmount\":" + "\""+loanAmount +"\""
+                    +"}";
+        
+        alert(data);
+        var obj = JSON.parse(data);
+        
+        console.log(obj);
+        Ajax('POST', url, obj, success, alert);
+        alert("add successfully");
+    }
+    
+    </script>
+
+
+    <table>
+        <th>
+            不知道写什么不好
+        </th>
+        <tr>
+            <td>loanIDX：<input type="text" id="loanIDX" value="loanIDX" class="input=medium search-query"></td>        
+        </tr>
+        <tr>
+            <td>staf_staffID：<input type="text" id="staf_staffID" value="staf_staffID"></td>
+        </tr>
+        <tr>
+            <td>bran_branchName：<input type="text" id="bran_branchName" value="bran_branchName"></td>
+        </tr>
+        <tr>
+            <td>loanDate：<input type="text" id="loanDate" value="loanDate"></td>
+        </tr>
+        <tr>
+            <td>loanAmount：<input type="text" id="loanAmount" value="loanAmount"></td>
+        </tr>
+        <tr>
+            <td>loanStatus：<input type="text" id="loanStatus" value="loanStatus"></td>
+        </tr>
+        <tr>
+            <td>loanPaid：<input type="text" id="loanPaid" value="loanPaid"></td>
+        </tr>
+    </table>
+
+    <button id="submit" class="btn btn-large btn-primary" onclick=add_Loan()>Submit</button>
+
+</body>
