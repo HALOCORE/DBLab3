@@ -40,4 +40,4 @@ def handle_name(request, branch_name):
         api__REQUEST.specify_delete('branch', 'branchName', branch_name)
         return db_connect.httpRespOK("OK")
     else:
-        return db_connect.httpRespError()
+        return db_connect.httpRespError("处理一个支行，不支持的请求method: " + request.method)
