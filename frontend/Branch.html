@@ -31,10 +31,10 @@
 
     <div id="toolbar">
       <button id="remove" class="btn  btn-secondary" onclick=click_remove()>remove</button>
-      <!-- <input id="city" type="text" value="city">
-      <input id="branchName" type="text" value="branch name"> -->
       <button id="add" class="btn btn-secondary" onclick=click_add()>add</button>   
       <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
+      <input type="text" id="searchContent">
+      <button id="search" class="btn btn-secondary" onclick=searchByBranchName()>search</button>
     </div>
 
 
@@ -42,13 +42,11 @@
     id="table"          
     data-height="1000"
     data-toolbar="#toobar"
-    data-search="true"
     data-pagination="true"
     data-page-list="[10, 25, 50, 100, ALL]" 
     data-click-to-select="true"
     data-checkbox-header="true"
-    data-search-on-enter-key="true"
-    data-show-search-button="true"
+    data-custom-search="searchByBranchName"
     >
         <thead>
           <tr>

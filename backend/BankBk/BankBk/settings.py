@@ -80,5 +80,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    "C:/Users/HP/Desktop/DB/DBLab3/frontend/"
+    "C:/Users/HP/Desktop/DB/DBLab3/frontend/",
+    "E:/DBExperiment/DBLab3/frontend/"
 ]
