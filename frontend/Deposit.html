@@ -19,13 +19,27 @@
     <script>
         
         var deposit_url = "http://localhost:8000/api/v1/APIAccount/Deposit"
-
-        Ajax('GET', deposit_url, '' , success, alert); 
+        var queryArray = new Array("bran_branchName", "staf_staffID", "remain", "visitTime", "openTime", "accountType", "cusA_accountIDX", "currency", "interest");
+        generate_query(queryArray, deposit_url)
+        Ajax('GET', deposit_url, '' , success, console.log); 
     </script>
-
+   <div id="toolbar">
+      <button id="remove" class="btn  btn-secondary" onclick=click_remove_deposit("http://localhost:8000/api/v1/APIAccount/Deposit")>remove</button>
+      <button id="add" class="btn btn-secondary" onclick=click_add_deposit()>add_deposit</button>   
+      <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
+      <button id="allAccounts" class="btn btn-secondary" onclick=accountCustomer(deposit_url)>account's customers</button>
+      <button id="allLoans" class="btn btn-secondary" onclick=click_add_account_to_customer(deposit_url)>add_account_to_customer</button>
+      <button id="refresh" class = "btn btn-secondary" onclick = myrefresh()>refresh</button>
+      <input id="searchByID" value="input ID to get information">
+      <button id="searchID" class="btn btn-secondary" onclick=searchByAccountID("http://localhost:8000/api/v1/APIAccount/Deposit")>searchID</button>
+      
+  </div>
+  <br>
+  <div id="search_content">
+  
+  </div>
     <table
     id="table"          
-    data-height="1000"
     data-toolbar="#toobar"
     data-search="true"
     data-pagination="true"

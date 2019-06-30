@@ -51,24 +51,24 @@ function Ajax(type, url, data, success, failed){
     xhr.onreadystatechange = function(){
         if(xhr.readyState == 4){
             if(xhr.status == 200){
-                alert("success");
-                alert(typeof xhr.responseText)
+                console.log("success");
+                console.log(typeof xhr.responseText)
                 success(xhr.responseText);
             } 
             else {
                 if(failed){
-                    alert("failed")
+                    console.log("failed")
                     failed(xhr.status);
                     failed(xhr.responseText);
                 }
                 else{
-                    alert("API调用异常。\n状态：" + xhr.status);
+                    console.log("API调用异常。\n状态：" + xhr.status);
                 }
             }
         }
         // else if(xhr.status == 400){
-        //     alert("400")
-        //     alert(xhr.responseText);
+        //     console.log("400")
+        //     console.log(xhr.responseText);
         // }
     }
 }
@@ -99,35 +99,35 @@ function click_remove(){
     //     field: 'branchName',
     //     values: ids
     // })
-    alert(ids);
+    console.log(ids);
     var url="http://localhost:8000/api/v1/APIBranch"
     for(var i = 0; i < ids.length; i ++){
-        alert(url+"/"+ids[i]);
-        alert(typeof ids[i]) 
-        Ajax('DELETE', url+"/"+ids[i], '', alert, alert);
+        console.log(url+"/"+ids[i]);
+        console.log(typeof ids[i]) 
+        Ajax('DELETE', url+"/"+ids[i], '', console.log, alert);
     }
     // $('#table').bootstrapTable('destroy');
-    // Ajax('GET', url, '', success, alert);
+    // Ajax('GET', url, '', success, console.log);
     myrefresh();
 }
 
 function click_add(){
     var city = prompt("输入city", "Hefei");
-    alert(city);
+    console.log(city);
     var branchName = prompt("输入支行名", "AHB"); 
-    alert(branchName)
+    console.log(branchName)
     var data = '{ '+"\"city\":" + "\""+city + "\""+ ", " + "\"branchName\":" + "\"" + branchName + "\"" + ' }';
-    alert(data);
-    alert(typeof data);
+    console.log(data);
+    console.log(typeof data);
     var obj = JSON.parse(data);
-    alert("obj: " + obj);
+    console.log("obj: " + obj);
     console.log(obj);
     var url="http://localhost:8000/api/v1/APIBranch"
-    Ajax('POST', url, obj, alert, alert);
+    Ajax('POST', url, obj, console.log, console.log);
 
     // $('#table').bootstrapTable('destroy');
-    // Ajax('GET', url, '', success, alert);
-    alert("add successfully!")
+    // Ajax('GET', url, '', success, console.log);
+    console.log("add successfully!")
 
     myrefresh();
 }
@@ -137,18 +137,18 @@ function click_change(){
     var ids = $.map($table.bootstrapTable('getSelections'), function(row){
         return  row.branchName;
     })
-    alert(ids);
+    console.log(ids);
     var url="http://localhost:8000/api/v1/APIBranch/"
     for(var i = 0; i < ids.length; i ++){
-        alert(url+ids[i]);
+        console.log(url+ids[i]);
         var city = prompt("输入修改后的city");
         var data = '{' + "\"field\"" + ":" + "[" + "\'city\'" + "]" + ", " + 
                     "\"field_value\"" + ":" + "[" + "\'" + city + "\'" + "]" +
                     '}'
-        alert(data);
+        console.log(data);
         // var obj = JSON.parse(data);
         // console.log(obj);
-        Ajax("PUT", url+ids[i], data, alert, alert);
+        Ajax("PUT", url+ids[i], data, console.log, console.log);
     }
 }
 
@@ -159,10 +159,10 @@ function searchByBranchName(){
     $('#table').bootstrapTable('destroy');
     var searchContent = document.getElementById("searchContent");
     if(searchContent.value){
-        Ajax('GET', url+"/"+searchContent.value, '', success, alert);
+        Ajax('GET', url+"/"+searchContent.value, '', success, console.log);
     }
     else{
-        Ajax('GET', url, '', success, alert);
+        Ajax('GET', url, '', success, console.log);
     }
 }
 

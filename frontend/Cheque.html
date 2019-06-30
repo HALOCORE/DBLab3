@@ -19,22 +19,35 @@
 <body>
 <script>
 var cheque_url = "http://localhost:8000/api/v1/APIAccount/Cheque"   
+var queryArray = new Array("bran_branchName", "staf_staffID", "remain", "visitTime", "openTime", "accountType", "cusA_accountIDX", "neg_limit");
+generate_query(queryArray, cheque_url);
 Ajax('GET', cheque_url, '' , success, alert);  
 </script>
-
-
+   <div id="toolbar">
+      <button id="remove" class="btn  btn-secondary" onclick=click_remove_deposit(cheque_url)>remove</button>
+      <button id="add" class="btn btn-secondary" onclick=click_add_cheque()>add_cheque</button>   
+      <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
+      <button id="allAccounts" class="btn btn-secondary" onclick=accountCustomer(cheque_url)>account's customers</button>
+      <button id="allLoans" class="btn btn-secondary" onclick=click_add_account_to_customer(cheque_url)>add_account_to_customer</button>
+      <button id="refresh" class = "btn btn-secondary" onclick = myrefresh()>refresh</button>
+      <input id="searchByID" value="input ID to get information">
+      <button id="searchID" class="btn btn-secondary" onclick=searchByAccountID(cheque_url)>searchID</button>
+      
+  </div>
+  <br>
+  <div id="search_content">
+  
+  </div>
 
 <table
 id="table"          
-data-height="1000"
 data-toolbar="#toobar"
 data-search="true"
 data-pagination="true"
 data-page-list="[10, 25, 50, 100, ALL]" 
 data-click-to-select="true"
 data-checkbox-header="true"
-data-search-on-enter-key="true"
-data-show-search-button="true"
+
 >
 <thead>
     <tr>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<meta charset="utf-8">    
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
@@ -11,7 +12,7 @@
 
 <body>
     <script>
-    var url = "http://localhost:8000/api/v1/APICustomer/";
+    var url = "http://localhost:8000/api/v1/APICustomer";
     
     function add_Client(){
         var customID = document.getElementById("customID").value;
@@ -40,6 +41,7 @@
         console.log(obj);
         Ajax('POST', url, obj, success, alert);
         alert("add successfully");
+        window.open("Client.html");
     }
     
 

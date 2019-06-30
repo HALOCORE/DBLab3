@@ -19,28 +19,36 @@
 <script>
     var url = "http://localhost:8000/api/v1/APICustomer";
     var response;
+    var queryArray = new Array("customPhone", "customAddress", "customName", "relName", "relPhone", "relEmail", "relRelation");
+    generate_query(queryArray);
     Ajax('GET', url, '' , success, alert);        
 </script>
 <div id="toolbar">
     <button id="remove" class="btn  btn-secondary" onclick=click_remove()>remove</button>
-    <!-- <input id="city" type="text" value="city">
-    <input id="branchName" type="text" value="branch name"> -->
     <button id="add" class="btn btn-secondary" onclick=click_add()>add</button>   
     <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
+    <button id="allAccounts" class="btn btn-secondary" onclick=listAllAccounts()>listAllAccounts</button>
+    <button id="allLoans" class="btn btn-secondary" onclick=listAllLoans()>listAllLoans</button>
+    <button id="refresh" class = "btn btn-secondary" onclick = myrefresh()>refresh</button>
+    <input id="searchByID" value="input ID to get information">
+    <button id="searchID" class="btn btn-secondary" onclick=searchByAccountID()>searchID</button>
+    
 </div>
+<br>
+<div id="search_content">
+
+</div>
+
 <table
 id="table"          
-data-height="1000"
 data-toolbar="#toobar"
-data-search="true"
 data-pagination="true"
 data-page-list="[10, 25, 50, 100, ALL]" 
 data-click-to-select="true"
 data-checkbox-header="true"
-data-search-on-enter-key="true"
-data-show-search-button="true"
 >
-<thead>
+<!-- <thead>
+  
 <tr>
 <th data-field="state" data-checkbox="true"></th>
 <th data-field="customID">customID</th>
@@ -52,6 +60,17 @@ data-show-search-button="true"
 <th data-field="relEmail">relEmail</th>
 <th data-field="relRelation">relRelation</th>
 </tr>
-</thead>
+</thead> -->
 </table>
+
+<table 
+id="neg_table"
+data-toolbar="#toobar"
+data-pagination="true"
+data-page-list="[10, 25, 50, 100, ALL]" 
+data-click-to-select="true"
+data-checkbox-header="true"
+>
+</table>
+
 </body>
