@@ -298,4 +298,30 @@ function myrefresh(){
     window.location.reload();
 }
 
+function click_change(){
+    var ids = $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.customID;
+    })
+    var phones = $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.customPhone;
+    })
+    var addresses =  $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.customAddress;
+    })
+    var url = "http://localhost:8000/api/v1/APICustomer";
+    for(var i = 0; i < ids.length ;i ++){
+        var customPhone = prompt("输入客户手机号");
+        var customAddress = prompt("输入客户地址");
+        if(customPhone == null || customPhone == ""){
+            customPhone = phones[i];
+        }
+        if(customAddress == null || customAddress == ""){
+            customAddress = addresses[i];
+        }
+        var data = 'field=customPhone&field=customAddress&field_value='+customPhone+"&field_value="+ customAddress;
+        console.log(data);
+        Ajax('PUT', url +"/" + ids[i], data, console.log, console.log);
+    }
+    myrefresh();
+}
 
