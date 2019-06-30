@@ -22,6 +22,7 @@ def printresp(resp:requests.Response):
 
 # ------------------ 测试控制 ------------------
 test_ctl = {
+    'Free':True,
     'Customer':False, 
     'Staff':False, 
     'DepAccount':False, 
@@ -31,6 +32,11 @@ test_ctl = {
     'Statistic':False
 }
 
+if test_ctl['Free']:
+    printresp(requests.put("http://localhost:8000/api/v1/APIAccount/Deposit/00000088888866666699", {
+        'fild': ['cust_customID', 'remain_change'],
+        'field_value':['221403199203056861', -10000]
+    }))
 # # Customer
 # 基本
 if test_ctl['Customer']:
