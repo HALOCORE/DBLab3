@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">    
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="Client.js"></script>
+</head>
+
+<body>
+    <script>
+    var url = "http://localhost:8000/api/v1/APIAccount/Cheque";
+    
+    function add_Cheque(){
+        var staf_staffID = document.getElementById("staf_staffID").value;
+        var cust_customID = document.getElementById("cust_customID").value;
+        var accountIDX = document.getElementById("accountIDX").value;
+        var remain = document.getElementById("remain").value;
+
+        var data = "{" + 
+                    "\"staf_staffID\":" + "\"" + staf_staffID + "\""+ ", " + 
+                    "\"cust_customID\":" +"\""+ cust_customID + "\""+ ", " + 
+                    "\"accountIDX\":" +"\""+ accountIDX +"\""+ ", " + 
+                    "\"remain\":" +"\""+ remain +"\""
+                    +"}";
+        
+        console.log(data);
+        var obj = JSON.parse(data);
+        
+        console.log(obj);
+        Ajax('POST', url, obj, success, alert);
+        alert("add successfully");
+        window.open("Deposit.html");
+    }
+    
+
+    </script>
+
+<table>
+    <th>
+        Add Deposit
+    </th>
+    <tr>
+        <td>staf_staffID<input type="text" id="staf_staffID"  class="input=medium search-query"></td>        
+    </tr>
+    <tr>
+        <td>cust_customID<input type="text" id="cust_customID"></td>
+    </tr>
+    <tr>
+        <td>accountIDX<input type="text" id="accountIDX"></td>
+    </tr>
+    <tr>
+        <td>remain<input type="text" id="remain"></td>
+    </tr>
+    <tr>
+</table>
+
+<button id="submit" class="btn btn-large btn-primary" onclick=add_Cheque()>Submit</button>
+
+</body>
