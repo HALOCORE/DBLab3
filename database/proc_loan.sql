@@ -5,7 +5,7 @@ delimiter $$
 DROP PROCEDURE if exists `proc_check_loan`;
 CREATE PROCEDURE `proc_check_loan` ()
 BEGIN
-	DECLARE done BOOLEAN DEFAULT 0 ;
+	DECLARE done BOOLEAN DEFAULT 0;
 
 	DECLARE var_idx varchar(30) DEFAULT null;
 	DECLARE var_amount float(8,2) DEFAULT null;

@@ -53,6 +53,7 @@ Ajax('GET', 'http://localhost:8000/api/v1/APIBranch', null,
             var bname = bdata[v]["branchName"];
             bsel.options.add(new Option(bname, bname));
         }
+        $('#branchsel').selectpicker('refresh');
 
         Ajax('GET', 'http://localhost:8000/api/v1/APIStatistic/Deposit', null,
             function(dep_data){

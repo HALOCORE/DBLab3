@@ -15,8 +15,7 @@
     <script src="common/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
-
-
+    
     <link rel="stylesheet" href="datep/css/bootstrap-datepicker.standalone.min.css">
     <script type="text/javascript" src="datep/js/bootstrap-datepicker.min.js"></script>
 
@@ -64,30 +63,6 @@
 </head>
 
 <body>
-    <!-- <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <div>
-                        <h5></h5>
-                    </div>
-                </div>
-                <div class="col-md-4"><p>Box 2</p></div>
-            </div>
-            <div class="row">
-                <div class="col-md-4"><p>Box 3</p></div>
-                <div class="col-md-4"><p>Box 4</p></div>
-                <div class="col-md-4"><p>Box 5</p></div>
-            </div>
-            <div class="row">
-                <div class="col-md-4"><p>Box 6</p></div>
-                <div class="col-md-4"><p>Box 7</p></div>
-                <div class="col-md-4"><p>Box 8</p></div>
-                <div class="col-md-4"><p>Box 9</p></div>
-                <div class="col-md-4"><p>Box 10</p></div>
-                <div class="col-md-4"><p>Box 11</p></div>
-                <div class="col-md-4"><p>Box 12</p></div>
-            </div>
-        </div> -->
     <div class="row" style="margin:20px;">
         <div class="col-md-4">
             <div class="card text-center bg-primary">
@@ -132,17 +107,10 @@
             </div>
         </div>
     </div>
-    <div class="row" style="margin: 40px;" onchange="console.log('sdsds')">
+    <div class="row" style="margin: 40px;" >
         <div class="col-md-3">
             <p>选择支行 </p>
-            <select id="branchsel" class="selectpicker show-tick" title="请选择一项" data-live-search="true" data-size="5">
-                <!-- <option>A</option>
-                <option>B</option>
-                <option>C</option>
-                <option>D</option>
-                <option>E</option>
-                <option>B</option>
-                <option>C</option> -->
+            <select id="branchsel" onchange="onBranchChange()" class="selectpicker show-tick" title="请选择一项" data-live-search="true" data-size="5">
             </select>
         </div>
         <div class="col-md-3">
@@ -163,22 +131,18 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-3">
-            <p> </p>
-            <button>统计</button>
-        </div> -->
     </div>
     <div class="row" style="margin:20px;">
         <div class="col-md-4">
             <div class="card text-center bg-primary cardbr">
                 <div class="m-t-10">
                     <p class="color-white">储蓄业务资产</p>
-                    <h2 class="color-white text-white">￥342425 </h2>
+                    <h2 id="brdep_board_1" class="color-white text-white">￥0 </h2>
                 </div>
                 <ul class="widget-line-list m-b-15">
-                    <li class="border-right">￥34241 <br><span class="color-white"><i
+                    <li class="border-right">￥<span id="brdep_board_2">0</span> <br><span class="color-white"><i
                                 class="ti-hand-point-up m-r-5"></i>人民币业务</span></li>
-                    <li>32425 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
+                    <li><span id="brdep_board_3">0</span> <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
                     </li>
                 </ul>
             </div>
@@ -187,12 +151,12 @@
             <div class="card text-center bg-success cardbr">
                 <div class="m-t-10">
                     <p class="color-white">支票业务资产</p>
-                    <h2 class="color-white text-white">￥342425 </h2>
+                    <h2 id="brche_board_1" class="color-white text-white">￥0 </h2>
                 </div>
                 <ul class="widget-line-list m-b-15">
-                    <li class="border-right"> ￥342425 <br><span class="color-white"><i
+                    <li class="border-right"> ￥<span id="brche_board_2" >0</span> <br><span class="color-white"><i
                                 class="ti-hand-point-up m-r-5"></i>总余额</span></li>
-                    <li>2443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
+                    <li > <span id="brche_board_3">0</span> <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
                     </li>
                 </ul>
             </div>
@@ -201,12 +165,12 @@
             <div class="card text-center bg-danger cardbr">
                 <div class="m-t-10">
                     <p class="color-white">贷款业务总额</p>
-                    <h2 class="color-white text-white">￥385749</h2>
+                    <h2 id="brloan_board_1" class="color-white text-white">￥0</h2>
                 </div>
                 <ul class="widget-line-list m-b-15">
-                    <li class="border-right">￥454 <br><span class="color-white"><i
+                    <li class="border-right">￥<span id="brloan_board_2" >0</span> <br><span class="color-white"><i
                                 class="ti-hand-point-up m-r-5"></i>已发放总额</span></li>
-                    <li>443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
+                    <li > <span id="brloan_board_3">0</span> <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
                     </li>
                 </ul>
             </div>
@@ -237,6 +201,7 @@
             <div class="card cardwhite">
                 <div class="card-title">
                     <h4>储蓄业务</h4>
+                    <button class="btn" onclick="updatePart('Deposit');" style="margin-left:10px;">Update</button>
                 </div>
                 <div class="team-chart">
                     <div id="np-Pie"
@@ -262,11 +227,12 @@
                 <div class="card cardwhite">
                     <div class="card-title">
                         <h4>支票业务</h4>
+                        <button class="btn" onclick="updatePart('Cheque');" style="margin-left:10px;">Update</button>
                     </div>
                     <div class="sales-chart">
                         <div id="rainfall"
                             style="height: 370px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;"
-                            _echarts_instance_="ec_1561864765763">
+                            _echarts_instance_="ec_1561864788888">
                             <div
                                 style="position: relative; overflow: hidden; width: 500px; height: 370px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
                                 <canvas id="chequecanvas" width="500" height="370" data-zr-dom-id="zr_0"
@@ -281,11 +247,12 @@
                 <div class="card cardwhite">
                     <div class="card-title">
                         <h4>贷款业务</h4>
+                        <button class="btn" onclick="updatePart('Loan');" style="margin-left:10px;">Update</button>
                     </div>
                     <div class="team-chart">
                         <div id="np-Pie"
                             style="height: 370px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;"
-                            _echarts_instance_="ec_1561864765762">
+                            _echarts_instance_="ec_1561864700000">
                             <div
                                 style="position: relative; overflow: hidden; width: 500px; height: 370px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
                                 <canvas id="loancanvas" width="500" height="370" data-zr-dom-id="zr_0"
@@ -310,6 +277,7 @@
     <script src="charts/mychart3.js"> </script>
     <script src="charts/mychart4.js"> </script>
     <script src="charts/chartload.js"></script>
+    <script src="charts/chartchange.js"></script>
 </body>
 
 </html>

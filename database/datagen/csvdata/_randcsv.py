@@ -7,8 +7,8 @@ import random
 def sqlstr(normstr):
     return '"' + normstr + '"'
 
-branch_cities = [sqlstr(x) for x in ['Hefei', 'Beijing', 'Shanghai']]
-branch_names = [sqlstr(x) for x in ['AHB', 'BJB', 'SHB']]
+branch_cities = [sqlstr(x) for x in ['Hefei', 'Beijing', 'Shanghai', 'Nanjing']]
+branch_names = [sqlstr(x) for x in ['安徽省分行', '北京分行', '上海分行', '南京分行']]
 
 unique_digits = {"x"}
 def rand_digits(dglength:int, quote=True):
@@ -63,21 +63,21 @@ def rand_address():
 
 def rand_name():
     xing = ['王', '赵', '李', '吴', '张','钱','雷','胡','温','宋']
-    ming = ['清','亮','树','想','上','飞','小牛','大山','源','凯','天乐','泽','一鸣','远']
+    ming = ['清','亮','树','想','上','飞','小牛','大山','源','凯','天乐','泽','一鸣','远','远','伟','家伟','浩','泽','毅','咏']
     return sqlstr(random.choice(xing) + random.choice(ming))
 
 def rand_email():
-    uname1 = ['wing','fly','kite','cent', 'bob', 'flow']
-    uname2 = ['best', '0', 'ok', 's', 'er']
+    uname1 = ['wing','fly','kite','cent', 'bob', 'flow','df','dfsew','qwert','tick','tim','wins','word','pptss','okok','bugs','deb','lihurte','claras','swing']
+    uname2 = ['best', '0', 'ok', 's', 'er','y','t','rr','2','4','5','7','8','i','s','S','SS']
     comp = ['gmail', 'outlook', '163', 'hotmail']
     return sqlstr(random.choice(uname1) + random.choice(uname2) + '@' + random.choice(comp) + ".com")
 
 def rand_phone():
     prefs = ['173', '138', '158', '188', '136']
-    return sqlstr(random.choice(prefs) + rand_digits(10, quote=False))
+    return sqlstr(random.choice(prefs) + rand_digits(8, quote=False))
 
-def rand_date():
-    year = ['2017', '2018', '2019', '2020']
+def rand_date(yearmin, yearmax):
+    year = [str(x) for x in range(yearmin, yearmax)]
     month = [str(x) for x in range(1, 13)]
     day = [str(x) for x in range(1, 28)]
     return sqlstr("%s-%s-%s" % (random.choice(year), random.choice(month), random.choice(day)))
@@ -106,7 +106,7 @@ def csv_cusAccount(idxs:list, branchnames:list, staffids:list, types:list):
     field_names = ['accountIDX', 'bran_branchName', 'staf_staffID', 'remain', 'visitTime', 'openTime', 'accountType']
     vals = list()
     for accidx, branchName, staffId, acctype in zip(idxs, branchnames, staffids, types):
-        vals.append((accidx, branchName, staffId, str(random.randint(10, 200000)), '"2019-06-12"', '"2012-12-21"', acctype))
+        vals.append((accidx, branchName, staffId, str(random.randint(10, 200000)), '"2019-06-12"', rand_date(2005, 2018), acctype))
     write_csv("cusAccount", field_names, vals)
     return field_names, vals
 
@@ -133,7 +133,7 @@ def csv_loan(idxs:list, staffids:list):
     vals = list()
     for idx, staffid in zip(idxs, staffids):
         branch_name = random.choice(branch_names)
-        loan_date = rand_date()
+        loan_date = rand_date(2010, 2018)
         loan_amount = str(random.randint(1, 100) * 1000)
         vals.append([idx, staffid, branch_name, loan_date, loan_amount, "0"])
     write_csv("loan", field_names, vals)
@@ -183,7 +183,7 @@ def csv_loanPay(loan_idxs:list, loan_amounts:list):
     for idx, amount in zip(loan_idxs, loan_amounts):
         cur_amount = int(amount)
         for _ in range(random.randint(0,3)):
-            loan_date = rand_date()
+            loan_date = rand_date(2010, 2018)
             cur_pay = min(cur_amount, int(random.randint(1, 10) * int(amount) / 10))
             if cur_pay == 0:
                 break
@@ -199,7 +199,7 @@ def csv_staff(staff_num:int):
     sids = rand_idstrs(staff_num)
     for sid in sids:
         sbranchname = random.choice(branch_names)
-        sworkdate = rand_date()
+        sworkdate = rand_date(2005, 2018)
         sname = rand_name()
         sphone = rand_phone()
         saddr = rand_address()

@@ -1,7 +1,7 @@
 
-var dom = document.getElementById("assetcanvas");
+var domasset = document.getElementById("assetcanvas");
 
-var myChart = echarts.init(dom);
+var assetmyChart = echarts.init(domasset);
 var app = {};
 
 test_datas = [
@@ -86,7 +86,7 @@ function setAssetData(datas){
     };
 
     if (option && typeof option === "object") {
-        myChart.setOption(option, true);
+        assetmyChart.setOption(option, true);
         
     }
 
