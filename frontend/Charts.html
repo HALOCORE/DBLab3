@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="mainframe" />
+    <meta http-equiv="pragma" content="no-cache">
+    <title>Example of Twitter Bootstrap 3 Grid System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link href="https://cdn.bootcss.com/bootstrap-select/1.12.4/css/bootstrap-select.min.css" rel="stylesheet">
+
+
+
+    <link rel="stylesheet" href="chart-style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+
+    <link rel="stylesheet" href="datep/css/bootstrap-datepicker.standalone.min.css">
+    <script type="text/javascript" src="datep/js/bootstrap-datepicker.min.js"></script>
+
+    <style type="text/css">
+        /* p {
+            padding: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            background: #f2f2f2;
+        } */
+        .border-right {
+            border-right: 1px solid #dee2e6 !important;
+            border-right-width: 1px !important;
+            border-right-style: solid !important;
+            border-right-color: rgb(222, 226, 230) !important;
+        }
+
+        #mydatecontrol {
+            width: 100%;
+
+            border: gainsboro;
+            border-width: 2px;
+            border-style: ridge;
+            border-radius: 4px;
+        }
+
+        .cardbr {
+            background: lightslategray;
+        }
+
+        .cardwhite{
+            background: white;
+            color: black;
+        }
+
+        .rowmargin {
+            margin: 30px;
+        }
+
+        /* .nomargin{
+            margin:0px;
+        } */
+    </style>
+</head>
+
+<body>
+    <!-- <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <h5></h5>
+                    </div>
+                </div>
+                <div class="col-md-4"><p>Box 2</p></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><p>Box 3</p></div>
+                <div class="col-md-4"><p>Box 4</p></div>
+                <div class="col-md-4"><p>Box 5</p></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><p>Box 6</p></div>
+                <div class="col-md-4"><p>Box 7</p></div>
+                <div class="col-md-4"><p>Box 8</p></div>
+                <div class="col-md-4"><p>Box 9</p></div>
+                <div class="col-md-4"><p>Box 10</p></div>
+                <div class="col-md-4"><p>Box 11</p></div>
+                <div class="col-md-4"><p>Box 12</p></div>
+            </div>
+        </div> -->
+    <div class="row" style="margin:20px;">
+        <div class="col-md-4">
+            <div class="card text-center bg-primary">
+                <div class="m-t-10">
+                    <p class="color-white">储蓄业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥34241 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>人民币业务</span></li>
+                    <li>32425 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-success">
+                <div class="m-t-10">
+                    <p class="color-white">支票业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right"> ￥342425 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>总余额</span></li>
+                    <li>2443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-danger">
+                <div class="m-t-10">
+                    <p class="color-white">贷款业务总额</p>
+                    <h2 class="color-white text-white">￥385749</h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥454 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>已发放总额</span></li>
+                    <li>443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 40px;">
+        <div class="col-md-3">
+            <p>选择支行 </p>
+            <select class="selectpicker show-tick" title="请选择一项" data-live-search="true" data-size="5">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <p>选择起止时间 </p>
+            <div class="span5 col-md-6" id="mydatecontrol">
+                <div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="input-sm form-control" name="start">
+                    <span class="input-group-addon">到</span>
+                    <input type="text" class="input-sm form-control" name="end">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row" style="margin:20px;">
+        <div class="col-md-4">
+            <div class="card text-center bg-primary cardbr">
+                <div class="m-t-10">
+                    <p class="color-white">储蓄业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥34241 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>人民币业务</span></li>
+                    <li>32425 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-success cardbr">
+                <div class="m-t-10">
+                    <p class="color-white">支票业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right"> ￥342425 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>总余额</span></li>
+                    <li>2443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-danger cardbr">
+                <div class="m-t-10">
+                    <p class="color-white">贷款业务总额</p>
+                    <h2 class="color-white text-white">￥385749</h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥454 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>已发放总额</span></li>
+                    <li>443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row rowmargin">
+        <div class="col-lg-6">
+            <div class="card cardwhite">
+                <div class="card-title">
+                    <h4>储蓄资产</h4>
+                </div>
+                <div class="sales-chart">
+                    <div id="rainfall"
+                        style="height: 370px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;"
+                        _echarts_instance_="ec_1561864765763">
+                        <div
+                            style="position: relative; overflow: hidden; width: 500px; height: 370px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                            <canvas id="assetcanvas" width="500" height="370" data-zr-dom-id="zr_0"
+                                style="position: absolute; left: 0px; top: 0px; width: 500px; height: 370px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+            </div><!-- /# card -->
+        </div><!-- /# column -->
+        <div class="col-lg-6">
+            <div class="card cardwhite">
+                <div class="card-title">
+                    <h4>储蓄业务</h4>
+                </div>
+                <div class="team-chart">
+                    <div id="np-Pie"
+                        style="height: 370px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;"
+                        _echarts_instance_="ec_1561864765762">
+                        <div
+                            style="position: relative; overflow: hidden; width: 500px; height: 370px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                            <canvas id="depositcanvas" width="500" height="370" data-zr-dom-id="zr_0"
+                                style="position: absolute; left: 0px; top: 0px; width: 500px; height: 370px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                        </div>
+                        <div
+                            style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(50, 50, 50, 0.7); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px/21px &quot;Microsoft YaHei&quot;; padding: 5px; left: 344px; top: 119px;">
+                            Source <br>Direct : 335 (13.08%)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /# column -->
+    </div>
+    
+    <div class="row rowmargin">
+            <div class="col-lg-6">
+                <div class="card cardwhite">
+                    <div class="card-title">
+                        <h4>支票业务</h4>
+                    </div>
+                    <div class="sales-chart">
+                        <div id="rainfall"
+                            style="height: 370px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;"
+                            _echarts_instance_="ec_1561864765763">
+                            <div
+                                style="position: relative; overflow: hidden; width: 500px; height: 370px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                <canvas id="chequecanvas" width="500" height="370" data-zr-dom-id="zr_0"
+                                    style="position: absolute; left: 0px; top: 0px; width: 500px; height: 370px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                            <div></div>
+                        </div>
+                    </div>
+                </div><!-- /# card -->
+            </div><!-- /# column -->
+            <div class="col-lg-6">
+                <div class="card cardwhite">
+                    <div class="card-title">
+                        <h4>贷款业务</h4>
+                    </div>
+                    <div class="team-chart">
+                        <div id="np-Pie"
+                            style="height: 370px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative; background: transparent;"
+                            _echarts_instance_="ec_1561864765762">
+                            <div
+                                style="position: relative; overflow: hidden; width: 500px; height: 370px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;">
+                                <canvas id="loancanvas" width="500" height="370" data-zr-dom-id="zr_0"
+                                    style="position: absolute; left: 0px; top: 0px; width: 500px; height: 370px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas>
+                            </div>
+                            <div
+                                style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(50, 50, 50, 0.7); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px/21px &quot;Microsoft YaHei&quot;; padding: 5px; left: 344px; top: 119px;">
+                                Source <br>Direct : 335 (13.08%)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /# column -->
+        </div>
+
+    <script>
+        $('#mydatecontrol .input-daterange').datepicker({});
+    </script>
+    <script src="charts/echarts.js"></script>
+    <script src="charts/mychart1.js"> </script>
+    <script src="charts/mychart2.js"> </script>
+    <script src="charts/mychart3.js"> </script>
+    <script src="charts/mychart4.js"> </script>
+</body>
+
+</html>
