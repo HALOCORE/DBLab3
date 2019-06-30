@@ -14,7 +14,7 @@ def handle_main(request):
     elif request.method == 'POST': #新建一个支行
         branchName = request.POST.get('branchName')
         if branchName is None:
-            return db_connect.httpRespError()
+            return db_connect.httpRespError("支行名称为空")
         else:
             api__REQUEST.insert_one('branch', request.POST)
             return db_connect.httpRespOK("OK")

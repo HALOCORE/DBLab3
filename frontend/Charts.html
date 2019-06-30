@@ -12,7 +12,7 @@
 
 
     <link rel="stylesheet" href="chart-style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="common/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
 
@@ -93,12 +93,12 @@
             <div class="card text-center bg-primary">
                 <div class="m-t-10">
                     <p class="color-white">储蓄业务资产</p>
-                    <h2 class="color-white text-white">￥342425 </h2>
+                    <h2 id="dep_board_1" class="color-white text-white">￥0 </h2>
                 </div>
                 <ul class="widget-line-list m-b-15">
-                    <li class="border-right">￥34241 <br><span class="color-white"><i
+                    <li id="dep_board_2" class="border-right">￥(rep) <br><span class="color-white"><i
                                 class="ti-hand-point-up m-r-5"></i>人民币业务</span></li>
-                    <li>32425 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
+                    <li id="dep_board_3">(rep) <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>账户总数</span>
                     </li>
                 </ul>
             </div>
@@ -107,12 +107,12 @@
             <div class="card text-center bg-success">
                 <div class="m-t-10">
                     <p class="color-white">支票业务资产</p>
-                    <h2 class="color-white text-white">￥342425 </h2>
+                    <h2 id="che_board_1" class="color-white text-white">￥0 </h2>
                 </div>
                 <ul class="widget-line-list m-b-15">
-                    <li class="border-right"> ￥342425 <br><span class="color-white"><i
+                    <li id="che_board_2" class="border-right">￥(rep) <br><span class="color-white"><i
                                 class="ti-hand-point-up m-r-5"></i>总余额</span></li>
-                    <li>2443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
+                    <li id="che_board_3">(rep) <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>账户总数</span>
                     </li>
                 </ul>
             </div>
@@ -121,41 +121,52 @@
             <div class="card text-center bg-danger">
                 <div class="m-t-10">
                     <p class="color-white">贷款业务总额</p>
-                    <h2 class="color-white text-white">￥385749</h2>
+                    <h2 id="loan_board_1" class="color-white text-white">￥0</h2>
                 </div>
                 <ul class="widget-line-list m-b-15">
-                    <li class="border-right">￥454 <br><span class="color-white"><i
+                    <li id="loan_board_2" class="border-right">￥(rep) <br><span class="color-white"><i
                                 class="ti-hand-point-up m-r-5"></i>已发放总额</span></li>
-                    <li>443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
+                    <li id="loan_board_3" >(rep) <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>账户总数</span>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="row" style="margin: 40px;">
+    <div class="row" style="margin: 40px;" onchange="console.log('sdsds')">
         <div class="col-md-3">
             <p>选择支行 </p>
-            <select class="selectpicker show-tick" title="请选择一项" data-live-search="true" data-size="5">
-                <option>A</option>
+            <select id="branchsel" class="selectpicker show-tick" title="请选择一项" data-live-search="true" data-size="5">
+                <!-- <option>A</option>
                 <option>B</option>
                 <option>C</option>
                 <option>D</option>
                 <option>E</option>
                 <option>B</option>
-                <option>C</option>
+                <option>C</option> -->
+            </select>
+        </div>
+        <div class="col-md-3">
+            <p>选择跨度 </p>
+            <select id="levelsel" class="selectpicker show-tick" title="请选择一项" data-size="5">
+                <option>年</option>
+                <option>季度</option>
+                <option>月</option>
             </select>
         </div>
         <div class="col-md-3">
             <p>选择起止时间 </p>
             <div class="span5 col-md-6" id="mydatecontrol">
                 <div class="input-daterange input-group" id="datepicker">
-                    <input type="text" class="input-sm form-control" name="start">
+                    <input id="startdatesel" type="text" class="input-sm form-control" name="start">
                     <span class="input-group-addon">到</span>
-                    <input type="text" class="input-sm form-control" name="end">
+                    <input id="enddatesel" type="text" class="input-sm form-control" name="end">
                 </div>
             </div>
         </div>
-
+        <!-- <div class="col-md-3">
+            <p> </p>
+            <button>统计</button>
+        </div> -->
     </div>
     <div class="row" style="margin:20px;">
         <div class="col-md-4">
@@ -298,6 +309,7 @@
     <script src="charts/mychart2.js"> </script>
     <script src="charts/mychart3.js"> </script>
     <script src="charts/mychart4.js"> </script>
+    <script src="charts/chartload.js"></script>
 </body>
 
 </html>
