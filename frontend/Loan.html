@@ -17,8 +17,12 @@
 
 <body>
     <script>
-        var url = "http://localhost:8000/api/v1/APILoan/";
+        var url = "http://localhost:8000/api/v1/APILoan";
         var response;
+        var queryArray = new Array("bran_branchName","staf_staffID" , "loanDatefrom", "loanDateto", "loanAmountgt", "loanAmountlt",  "loanStatus", "loanPaid");
+
+        generate_query(queryArray);
+
         Ajax('GET', url, '' , success, alert);      
     </script>
 
@@ -26,31 +30,66 @@
     <button id="remove" class="btn  btn-secondary" onclick=click_remove()>remove</button>
     <button id="add" class="btn btn-secondary" onclick=click_add()>add</button>   
     <button id="change" class="btn btn-secondary" onclick=click_change()>change</button>
-    </div>
+    <button id="getCustomerInfo" class="btn btn-secondary" onclick =getCustomer()>getCustomer</button>
+    <input id="searchByID">
+    <button id="searchID" class="btn btn-secondary" onclick=searchByLoanID()>searchID</button>
+    <button id="getPayRecord" class="btn btn-secondary" onclick=getPayRecord()>getPayRecord</button>
+    <button id="addCustomer" class="btn btn-secondary" onclick=addCustomer()>addCustomer</button>
+    <button id="payLoan" class="btn btn-secondary" onclick=payLoan()>payLoan</button>
+    <button id="refresh" class = "btn btn-secondary" onclick = myrefresh()>refresh</button>
+
+  </div>
         
+    <div id="search_content">
+
+    </div>
+    <div id="test">
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-full" role="document" style="max-width: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">新增</h4> 
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+            <div id="Accounts">
+                    <table
+                    id="modalTable"         
+                    data-toolbar="#toobar"
+                    data-pagination="true"
+                    data-page-list="[10, 25, 50, 100, ALL]" 
+                    data-click-to-select="true"
+                    data-checkbox-header="true"
+                    >
+                    </table>
+                    <table
+                    id="modalNegTable"         
+                    data-toolbar="#toobar"
+                    data-pagination="true"
+                    data-page-list="[10, 25, 50, 100, ALL]" 
+                    data-click-to-select="true"
+                    data-checkbox-header="true"
+                    >
+                    </table>
+
+            </div>
+            </div>
+            <div class="modal-footer"> 
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+            </div> 
+        </div> 
+    </div> 
+</div>
+
+
     <table
     id="table"          
     data-height="1000"
     data-toolbar="#toobar"
-    data-search="true"
     data-pagination="true"
     data-page-list="[10, 25, 50, 100, ALL]" 
     data-click-to-select="true"
     data-checkbox-header="true"
-    data-search-on-enter-key="true"
-    data-show-search-button="true"
     >
-    <thead>
-        <tr>
-        <th data-field="state" data-checkbox="true"></th>
-        <th data-field="loanIDX">loanIDX</th>
-        <th data-field="staf_staffID">staf_staffID</th>
-        <th data-field="bran_branchName">bran_branchName</th>
-        <th data-field="loanDate">loanDate</th>
-        <th data-field="loanAmount">loanAmount</th>
-        <th data-field="loanStatus">loanStatus</th>
-        <th data-field="loanPaid">loanPaid</th>
-        </tr>
-    </thead>
   </table>
 </body>

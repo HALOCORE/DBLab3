@@ -33,10 +33,10 @@ function Ajax(type, url, data, success, failed){
         xhr.send(data);
     } else if(type == 'DELETE'){  
         if(data){
-            xhr.open('DELETE', url + data, false);
+            xhr.open('DELETE', url + data, true);
             
         } else{
-            xhr.open('DELETE', url, false);
+            xhr.open('DELETE', url, true);
         }
         xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhr.send();
@@ -130,15 +130,15 @@ function generate_query(queryArray){
     var isNull = true;
     for(var i = 0; i < queryArray.length; i ++){
         var queryVar = document.getElementById(queryArray[i]);
-        if(queryVar == null){
-            queryString += queryArray[i] + "=" 
+        if(queryVar == null || queryVar.value == ""){
+            continue;
         }
         else {
             isNull = false;
-            queryString += queryArray[i] +"="+ queryVar.value;
+            queryString += queryArray[i] +"="+ queryVar.value.trim();
+            queryString += "&";
         }
         console.log(queryString);
-        queryString += "&";
     }
     var url = "http://localhost:8000/api/v1/APIStaff";
     if(isNull){
@@ -150,7 +150,7 @@ function generate_query(queryArray){
 }
 
 function success_all_loans(response){
-    document.getElementById("table").innerHTML = "<thead> \
+    document.getElementById("modalTable").innerHTML = "<thead> \
     <tr> \
     <th data-field=\"state\" data-checkbox=\"true\"></th> \
     <th data-field=\"loanIDX\">loanIDX</th> \
@@ -162,13 +162,12 @@ function success_all_loans(response){
     <th data-field=\"loanPaid\">loanPaid</th> \
     </tr>"  +
     "</thead>"
-
     var newJson = []
     response = JSON.parse(response);
     newJson = response["data"];
     console.log("newJson: "+ newJson)
 
-    $("#table").bootstrapTable({
+    $("#modalTable").bootstrapTable({
         data: newJson
     })
 }
@@ -179,7 +178,11 @@ function listAllLoans(){
     var ids = $.map($table.bootstrapTable('getSelections'), function(row){
         return  row.staffID;
     })
-    $('#table').bootstrapTable('destroy');
+    $('#modalTable').bootstrapTable('destroy');
+    document.getElementById("modalNegTable").innerHTML = ""
+    $('#myModal').modal('toggle');
+    $('#modalNegTable').bootstrapTable('destroy');
+    
     var url="http://localhost:8000/api/v1/APIStaff"
     if(ids.length == 0){
         Ajax('GET', url, '', success, alert);
@@ -200,7 +203,7 @@ function success_all_accounts(response){
     console.log(JSON.stringify(newJson1));
 
     if(newJson0.length > 0){
-        document.getElementById("table").innerHTML = "<thead> \
+        document.getElementById("modalTable").innerHTML = "<thead> \
         <tr> \
         <th data-field=\"state\" data-checkbox=\"true\"></th> \
         <th data-field=\"accountIDX\">accountIDX</th> \
@@ -215,13 +218,13 @@ function success_all_accounts(response){
         <th data-field=\"interest\">interest</th> \
         </tr>"  +
         "</thead>";
-        $("#table").bootstrapTable({
+        $("#modalTable").bootstrapTable({
             data: newJson0,
         })
     }
 
     if(newJson1.length > 0){
-        document.getElementById("neg_table").innerHTML = "<thead> \
+        document.getElementById("modalNegTable").innerHTML = "<thead> \
         <tr> \
         <th data-field=\"state\" data-checkbox=\"true\"></th> \
         <th data-field=\"accountIDX\">accountIDX</th> \
@@ -235,7 +238,7 @@ function success_all_accounts(response){
         <th data-field=\"neg_limit\">neg_limit</th> \
         </tr>"  +
         "</thead>";
-        $("#neg_table").bootstrapTable({
+        $("#modalNegTable").bootstrapTable({
             data: newJson1,
         })
     }
@@ -247,7 +250,9 @@ function listAllAccounts(){
         return  row.staffID;
     })
     var url="http://localhost:8000/api/v1/APIStaff"
-    $('#table').bootstrapTable('destroy');
+    $('#myModal').modal('toggle');
+    $('#modalTable').bootstrapTable('destroy');
+    $('#modalNegTable').bootstrapTable('destroy');
     for(var i = 0; i < ids.length; i ++){
         console.log(url + "/" + ids[i]);
         Ajax('GET', url + "/" + ids[i] + "/CusAccount", '', success_all_accounts, console.log);
@@ -270,3 +275,5 @@ function searchByStaffID(){
 function myrefresh(){
     window.location.reload();
 }
+
+
