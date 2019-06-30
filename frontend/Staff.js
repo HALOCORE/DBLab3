@@ -276,4 +276,30 @@ function myrefresh(){
     window.location.reload();
 }
 
+function click_change(){
+    var ids = $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.staffID;
+    })
+    var phones = $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.staffPhone;
+    })
+    var dates =  $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.startWorkDate;
+    })
+    var url = "http://localhost:8000/api/v1/APIStaff";
+    for(var i = 0; i < ids.length; i ++){
+        var staffPhone = prompt("输入员工的手机号")
+        var startWorkDate = prompt("输入开始的工作日期")
+        if(staffPhone == null || staffPhone ==''){
+            staffPhone = phones[i];
+        }
+        if(startWorkDate == null || startWorkDate == ''){
+            startWorkDate = dates[i];
+        }
+        var data = 'field=staffPhone&field=startWorkDate&field_value='+staffPhone+"&field_value="+ startWorkDate;
+        console.log(data);
+        Ajax('PUT', url + "/" + ids[i], data, console.log, alert);
+    }
+    myrefresh();
+}
 

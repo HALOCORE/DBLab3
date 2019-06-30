@@ -1,7 +1,6 @@
 var cheque_url = "http://localhost:8000/api/v1/APIAccount/Cheque"
 var deposit_url = "http://localhost:8000/api/v1/APIAccount/Deposit"
 
-// url 后统一以'/'结尾
 function Ajax(type, url, data, success, failed){
     var xhr = null;
     if(window.XMLHttpRequest){
@@ -44,7 +43,7 @@ function Ajax(type, url, data, success, failed){
         xhr.send();
     } else if(type == 'PUT'){
         xhr.open('PUT', url, true);
-        xhr.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+        xhr.setRequestHeader('Content-type','application/json');
         xhr.send(data);
     }
     
@@ -101,6 +100,21 @@ function click_remove_deposit(url){
 
 function searchByAccountID(url){
     $('#table').bootstrapTable('destroy');
+    document.getElementById("table").innerHTML = "<thead> \
+    <tr> \
+    <th data-field=\"state\" data-checkbox=\"true\"></th> \
+    <th data-field=\"accountIDX\">accountIDX</th> \
+    <th data-field=\"bran_branchName\">bran_branchName</th> \
+    <th data-field=\"staf_staffID\">staf_staffID</th> \
+    <th data-field=\"remain\">remain</th> \
+    <th data-field=\"visitTime\">visitTime</th> \
+    <th data-field=\"openTime\">openTime</th> \
+    <th data-field=\"accountType\">accountType</th> \
+    <th data-field=\"cusA_accountIDX\">cusA_accountIDX</th> \
+    <th data-field=\"currency\">currency</th> \
+    <th data-field=\"interest\">interest</th> \
+    </tr>"  +
+    "</thead>";
     var searchByID = document.getElementById('searchByID');
     console.log(searchByID.value);
     if(searchByID == null || searchByID.value == ""){
@@ -173,6 +187,7 @@ function accountCustomer(url){
     for(var i = 0; i < ids.length; i ++){
         console.log(url+"/"+ids[i]);
         console.log(typeof ids[i])
+        document.getElementById("searchByID").value = ids[i];
         Ajax('GET', url + "/" + ids[i] + "/Customer", '', success, alert);
     }
 
@@ -189,9 +204,14 @@ function click_add_account_to_customer(url){
 
     for(var i = 0; i < ids.length; i ++){
         var custom_ID = prompt("input customer ID: ");
-        var data = "{" + "\"cust_customID\":" + "\""+ custom_ID + "\"" +"}";
-        console.log(data);
-        Ajax('POST', url + "/"+ ids[i], data, success, console.log);
+        if(custom_ID != null && custom_ID !=""){
+            var data = "{" + "\"cust_customID\":" + "\""+ custom_ID + "\"" +"}";
+            console.log(data);
+            Ajax('POST', url + "/"+ ids[i], data, success, console.log);
+        }
+        else{
+            myrefresh();
+        }
     }
     console.log("click_add_account_to_customer");
 }
@@ -216,10 +236,15 @@ function click_change_deposit(){
     })
     var deposit_url = "http://localhost:8000/api/v1/APIAccount/Deposit"
     for(var i = 0; i < ids.length; i ++){
+        var cust_customID = prompt("输入用户ID");
         var remain_change = prompt("输入变更储蓄的金额");
-        var data = '{' +  "\"field\":[\"cust_customID\", \"remain_change\"]," +
-                    "\"field_value\":[" + ids[i] + "," + "\"" +remain_change +"\"" +"]";
-        var obj = JSON.parse(data);
-        Ajax('PUT', deposit_url + "/" + ids[i], obj, console.log, console.log);
+        if(cust_customID != null && remain_change != null && cust_customID != "" && remain_change != ""){
+            var data = 'field=cust_customID&field=remain_change&field_value='+cust_customID+"&field_value="+ remain_change;
+            console.log(data);
+            // var obj = JSON.parse(data);
+            // console.log(obj)
+            Ajax('PUT', deposit_url + "/" + ids[i], data, console.log, alert);
+        }
     }
+    myrefresh();
 }

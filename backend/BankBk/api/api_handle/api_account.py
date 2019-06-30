@@ -67,7 +67,7 @@ def handle_deposit_id(request, deposit_id):
         field = put.getlist('field', None)
         field_value = put.getlist('field_value', None)
         if len(field) != 2:
-            return db_connect.httpRespError("需要两个参数: 操作对应的 customID 和 更新后余额 remain. " + str(field))
+            return db_connect.httpRespError("需要两个参数: 操作对应的 customID 和 更新后余额 remain. " + str(field) + str(request.body))
         if field[0] != 'cust_customID' or field[1] != 'remain_change':
             return db_connect.httpRespError("两个参数依次是 cust_customID 和 remain_change.")
         custom_id = field_value[0]
