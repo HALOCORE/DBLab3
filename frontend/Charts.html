@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <base target="mainframe" />
+    <meta http-equiv="pragma" content="no-cache">
+    <title>Example of Twitter Bootstrap 3 Grid System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <link href="https://cdn.bootcss.com/bootstrap-select/1.12.4/css/bootstrap-select.min.css" rel="stylesheet">
+    
+    
+
+    <link rel="stylesheet" href="chart-style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+
+    
+    <link rel="stylesheet" href="datep/css/bootstrap-datepicker.standalone.min.css">
+    <script type="text/javascript" src="datep/js/bootstrap-datepicker.min.js"></script>
+	
+    <style type="text/css">
+        /* p {
+            padding: 100px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            background: #f2f2f2;
+        } */
+        .border-right {
+            border-right: 1px solid #dee2e6!important;
+            border-right-width: 1px !important;
+            border-right-style: solid !important;
+            border-right-color: rgb(222, 226, 230) !important;
+        }
+        #sandbox-container{
+            width:300px;
+            
+            border: gainsboro;
+            border-width: 2px;
+            border-style:ridge;
+            border-radius: 4px;
+        }
+        .nomargin{
+            margin:0px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div>
+                        <h5></h5>
+                    </div>
+                </div>
+                <div class="col-md-4"><p>Box 2</p></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><p>Box 3</p></div>
+                <div class="col-md-4"><p>Box 4</p></div>
+                <div class="col-md-4"><p>Box 5</p></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><p>Box 6</p></div>
+                <div class="col-md-4"><p>Box 7</p></div>
+                <div class="col-md-4"><p>Box 8</p></div>
+                <div class="col-md-4"><p>Box 9</p></div>
+                <div class="col-md-4"><p>Box 10</p></div>
+                <div class="col-md-4"><p>Box 11</p></div>
+                <div class="col-md-4"><p>Box 12</p></div>
+            </div>
+        </div> -->
+    <div class="row" style="margin:20px;">
+        <div class="col-md-4">
+            <div class="card text-center bg-primary">
+                <div class="m-t-10">
+                    <p class="color-white">储蓄业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥34241 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>人民币业务</span></li>
+                    <li>32425 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-success">
+                <div class="m-t-10">
+                    <p class="color-white">支票业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right"> ￥342425 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>总余额</span></li>
+                    <li>2443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-danger">
+                <div class="m-t-10">
+                    <p class="color-white">贷款业务总额</p>
+                    <h2 class="color-white text-white">￥385749</h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥454 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>已发放总额</span></li>
+                    <li>443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin: 40px;">
+        <div class="col-md-3">
+            <p>选择支行 </p>
+            <select class="selectpicker show-tick" title="请选择一项" data-live-search="true" data-size="5">
+                <option>A</option>
+                <option>B</option>
+                <option>C</option>
+                <option>D</option>
+                <option>E</option>
+                <option>B</option>
+                <option>C</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <p>选择起止时间 </p>
+            <div class="span5 col-md-5" id="sandbox-container"><div class="input-daterange input-group" id="datepicker">
+                    <input type="text" class="input-sm form-control nomargin" name="start">
+                    <span class="input-group-addon">到</span>
+                    <input type="text" class="input-sm form-control nomargin" name="end">
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin:20px;">
+        <div class="col-md-4">
+            <div class="card text-center bg-primary">
+                <div class="m-t-10">
+                    <p class="color-white">储蓄业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥34241 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>人民币业务</span></li>
+                    <li>32425 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>总用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-success">
+                <div class="m-t-10">
+                    <p class="color-white">支票业务资产</p>
+                    <h2 class="color-white text-white">￥342425 </h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right"> ￥342425 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>总余额</span></li>
+                    <li>2443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户总数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card text-center bg-danger">
+                <div class="m-t-10">
+                    <p class="color-white">贷款业务总额</p>
+                    <h2 class="color-white text-white">￥385749</h2>
+                </div>
+                <ul class="widget-line-list m-b-15">
+                    <li class="border-right">￥454 <br><span class="color-white"><i
+                                class="ti-hand-point-up m-r-5"></i>已发放总额</span></li>
+                    <li>443 <br><span class="color-white f-s-14"><i class="ti-hand-point-down m-r-5"></i>用户数</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    $('#sandbox-container .input-daterange').datepicker({
+    });
+    </script>
+</body>
+
+</html>
