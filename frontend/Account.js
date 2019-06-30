@@ -209,3 +209,17 @@ function click_add_cheque(){
     toolbar=no, menubar=no, scrollbars=no, \
     resizable=no, location=no, status=no" )
 }
+
+function click_change_deposit(){
+    var ids = $.map($('#table').bootstrapTable('getSelections'), function(row){
+        return  row.accountIDX;
+    })
+    var deposit_url = "http://localhost:8000/api/v1/APIAccount/Deposit"
+    for(var i = 0; i < ids.length; i ++){
+        var remain_change = prompt("输入变更储蓄的金额");
+        var data = '{' +  "\"field\":[\"cust_customID\", \"remain_change\"]," +
+                    "\"field_value\":[" + ids[i] + "," + "\"" +remain_change +"\"" +"]";
+        var obj = JSON.parse(data);
+        Ajax('PUT', deposit_url + "/" + ids[i], obj, console.log, console.log);
+    }
+}

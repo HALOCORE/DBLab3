@@ -11,7 +11,7 @@
 
 <body>
     <script>
-    var url = "http://localhost:8000/api/v1/APILoan/";
+    var url = "http://localhost:8000/api/v1/APILoan";
 
     function add_Loan(){
         var loanIDX = document.getElementById("loanIDX").value;
@@ -19,8 +19,6 @@
         var  bran_branchName = document.getElementById("bran_branchName").value;
         var loanDate = document.getElementById("loanDate").value;
         var loanAmount = document.getElementById("loanAmount").value;
-        var loanStatus = document.getElementById("loanStatus").value;
-        var loanPaid = document.getElementById("loanPaid").value;
         var data = "{" + 
                     "\"loanIDX\":" + "\"" + loanIDX + "\""+ ", " + 
                     "\"staf_staffID\":" +"\""+ staf_staffID + "\""+ ", " + 
@@ -35,6 +33,7 @@
         console.log(obj);
         Ajax('POST', url, obj, success, alert);
         alert("add successfully");
+        window.open("Loan.html");
     }
     
     </script>
@@ -60,11 +59,6 @@
             <td>loanAmount：<input type="text" id="loanAmount" value="loanAmount"></td>
         </tr>
         <tr>
-            <td>loanStatus：<input type="text" id="loanStatus" value="loanStatus"></td>
-        </tr>
-        <tr>
-            <td>loanPaid：<input type="text" id="loanPaid" value="loanPaid"></td>
-        </tr>
     </table>
 
     <button id="submit" class="btn btn-large btn-primary" onclick=add_Loan()>Submit</button>

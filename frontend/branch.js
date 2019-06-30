@@ -138,18 +138,19 @@ function click_change(){
         return  row.branchName;
     })
     console.log(ids);
-    var url="http://localhost:8000/api/v1/APIBranch/"
+    var url="http://localhost:8000/api/v1/APIBranch"
     for(var i = 0; i < ids.length; i ++){
         console.log(url+ids[i]);
         var city = prompt("输入修改后的city");
-        var data = '{' + "\"field\"" + ":" + "[" + "\'city\'" + "]" + ", " + 
-                    "\"field_value\"" + ":" + "[" + "\'" + city + "\'" + "]" +
+        var data = '{' + "\"field\"" + ":" + "[" + "\"city\"" + "]" + ", " + 
+                    "\"field_value\"" + ":" + "[" + "\"" + city + "\"" + "]" +
                     '}'
         console.log(data);
-        // var obj = JSON.parse(data);
-        // console.log(obj);
-        Ajax("PUT", url+ids[i], data, console.log, console.log);
+        var obj = JSON.parse(data);
+        console.log(obj);
+        Ajax("PUT", url+"/"+ids[i], obj, console.log, console.log);
     }
+    myrefresh();
 }
 
 
